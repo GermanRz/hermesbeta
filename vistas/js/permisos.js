@@ -21,20 +21,23 @@ $(document).ready(function() {
             
             var html = "";
             $.each(modulos, function(index, value) {
-                html += '<div class="col-md-6">';
-                html +=     '<div class="card module-card">';
-                html +=         '<div class="card-header">Módulo: ' + value.nombre + '</div>';                
-                html +=         '<div class="card-body">';
-                $.each(value.permisos, function(index2, value2) {
-                    html +=          '<div class="form-check">';
-                    html +=             '<input type="checkbox" class="form-check-input" id="' + value2["id_permiso"] + '">';
-                    html +=                 '<label class="form-check-label w-100" for="' + value2["id_permiso"] + '"><strong>' + value2["nombre_permiso"] + '</strong>';
-                    html +=             '<div class="small text-muted">'+value2["descripcion_permiso"]+'</div></label>';
-                    html +=          '</div>';  //form-check
-                });
-                html += '</div>'; // card-body
-                html += '</div>'; // card
-                html += '</div>';  // col-md-6
+                //el modulo de Módulos no se muestra en el listado de permisos
+                // if (value.nombre!="Módulos") {        
+                    html += '<div class="col-md-6">';
+                    html +=     '<div class="card module-card card-primary">';
+                    html +=         '<div class="card-header">Módulo: ' + value.nombre + '</div>';                
+                    html +=         '<div class="card-body">';
+                    $.each(value.permisos, function(index2, value2) {
+                        html +=          '<div class="form-check">';
+                        html +=             '<input type="checkbox" class="form-check-input" id="' + value2["id_permiso"] + '">';
+                        html +=                 '<label class="form-check-label w-100" for="' + value2["id_permiso"] + '"><strong>' + value2["nombre_permiso"] + '</strong>';
+                        html +=             '<div class="small text-muted">'+value2["descripcion_permiso"]+'</div></label>';
+                        html +=          '</div>';  //form-check
+                    });
+                    html += '</div>'; // card-body
+                    html += '</div>'; // card
+                    html += '</div>';  // col-md-6
+                // }
                 
             });
 

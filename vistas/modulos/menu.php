@@ -14,7 +14,8 @@
           <img src="vistas/img/usuarios/michael.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Michel Pierce</a>
+          <a href="#" class="d-block"><?php echo $_SESSION["nombre"] . " " . $_SESSION["apellido"] ?></a>
+          <a href="#" class="d-block"><?php echo $_SESSION["nombre_rol"] ?></a>
         </div>
       </div>
 
@@ -24,42 +25,66 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-cogs"></i>
-              <p>
-                Administrar
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="fichas" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fichas</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="sedes" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Sedes</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="roles" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Roles</p>
-                </a>
-              </li> 
-              <li class="nav-item">
-                <a href="modulos" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Módulos</p>
-                </a>        
-              </li>                  
-              
-            </ul>
-          </li>
+          <!-- si el usuario tiene algun id_permiso entre 1 y 6 puede ver la opcion de administrar en el menu de lo contrario no -->
+          <?php
+
+          if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+            echo '<li class="nav-item">
+                      <a href="#" class="nav-link">
+                      <i class="nav-icon fas fa-cogs"></i>
+                      <p>
+                        Administrar
+                        <i class="right fas fa-angle-left"></i>
+                      </p>
+                    </a>
+                    <ul class="nav nav-treeview">';
+
+          if (ControladorValidacion::validarPermisoSesion([22])) {
+                      echo '<li class="nav-item">
+                        <a href="fichas" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Fichas</p>
+                        </a>
+                      </li>';}
+
+
+          if (ControladorValidacion::validarPermisoSesion([23, 24, 25])) {
+                      echo '<li class="nav-item">
+                        <a href="sedes" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Sedes</p>
+                        </a>
+                      </li>';}
+
+          if (ControladorValidacion::validarPermisoSesion([26, 27, 28])) {
+                      echo '<li class="nav-item">
+                        <a href="roles" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Roles</p>
+                        </a>
+                      </li>';} 
+
+          if (ControladorValidacion::validarPermisoSesion([30])) {                       
+                      echo'<li class="nav-item">
+                      <a href="permisos" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Permisos</p>
+                      </a>
+                    </li>';}
+
+          if (ControladorValidacion::validarPermisoSesion([29])) {    
+                      echo'<li class="nav-item">
+                        <a href="modulos" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Módulos</p>
+                        </a>        
+                      </li>' ;}                 
+                      
+                   echo '</ul>
+                  </li>';
+          }
+          ?>
+
 
 
           <li class="nav-item">
@@ -71,7 +96,7 @@
             </a>
           </li>
 
-          
+
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
@@ -79,7 +104,7 @@
                 Usuarios
                 <i class="right fas fa-angle-left"></i>
               </p>
-            </a>            
+            </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="usuarios" class="nav-link">
@@ -87,23 +112,23 @@
                   <p>Usuarios</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a href="permisos" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Permisos</p>
                 </a>
-              </li>
-            </ul>    
-            
-            
-            <li class="nav-item">
+              </li> -->
+            </ul>
+
+
+          <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-laptop"></i>
               <p>
                 Equipos
                 <i class="right fas fa-angle-left"></i>
               </p>
-            </a>            
+            </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="inventario" class="nav-link">
@@ -117,16 +142,16 @@
                   <p>Recepción</p>
                 </a>
               </li>
-            </ul>  
-            
-            <li class="nav-item">
+            </ul>
+
+          <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-folder"></i>
               <p>
                 Solicitudes
                 <i class="right fas fa-angle-left"></i>
               </p>
-            </a>            
+            </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="reservas" class="nav-link">
@@ -141,15 +166,15 @@
                 </a>
               </li>
             </ul>
-            
-            <li class="nav-item">
+
+          <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-check"></i>
               <p>
                 Autorizar
                 <i class="right fas fa-angle-left"></i>
               </p>
-            </a>            
+            </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="autorizaciones" class="nav-link">
@@ -164,8 +189,8 @@
                 </a>
               </li>
             </ul>
-            
-            <li class="nav-item">
+
+          <li class="nav-item">
             <a href="devoluciones" class="nav-link">
               <i class="nav-icon fas fa-reply"></i>
               <span class="badge badge-info right">6+</span>
@@ -174,7 +199,7 @@
               </p>
             </a>
           </li>
-          
+
           <li class="nav-item">
             <a href="salidas" class="nav-link">
               <i class="nav-icon fas fa-eye"></i>
@@ -183,8 +208,8 @@
                 Salidas
               </p>
             </a>
-          </li> 
-          
+          </li>
+
           <li class="nav-item">
             <a href="reportes" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
@@ -192,14 +217,9 @@
                 Reportes
               </p>
             </a>
-          </li>          
+          </li>
 
 
         </ul>
       </nav>
-
-
-
-
-
-   </aside>
+  </aside>

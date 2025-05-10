@@ -11,6 +11,12 @@
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Contacto</a>
       </li>
+      <li>
+        <pre><?php 
+        // el usuario debe salir y volver a entrar para recargar todos los permisos
+        // print_r($_SESSION["permisos"]); 
+        ?></pre>
+      </li>
     </ul>
 
     <!-- Right navbar links -->

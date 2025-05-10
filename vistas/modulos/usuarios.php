@@ -334,6 +334,18 @@
                 </div>
                 <!-- row -->
               </div>
+              <!-- row password  -->
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="input-group ">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                      </div>
+                      <input type="password" class="form-control" name="nuevoPassword" placeholder="Password" required>
+                    </div>
+                  </div>
+                </div>
               <!-- form group -->
               <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>

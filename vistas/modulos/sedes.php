@@ -1,3 +1,17 @@
+<?php
+        $item = "id_modulo";
+        $valor = 8;
+        $respuesta = ControladorModulos::ctrMostrarModulos($item, $valor);
+        if ($respuesta["estado"] == "inactivo") {
+            echo '<script>
+                window.location = "desactivado";
+            </script>';
+        }
+
+    ?>
+    
+    
+    
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -8,7 +22,13 @@
                         <h1>Sedes</h1>
                     </div>
                     <div class="col-sm-6">
-                        <button class="btn btn-primary float-right" data-toggle="modal" data-target="#modalAddSede">Agregar Sede</button>
+                        <?php 
+                        // Check if the user has permission to add a new Sede
+                        if (ControladorValidacion::validarPermisoSesion([24])) {
+                            echo '<button class="btn btn-primary float-right" data-toggle="modal" data-target="#modalAddSede">Agregar Sede</button>';
+                        }
+                        
+                        ?>
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -49,19 +69,32 @@
                                                 <td>' . $value["direccion"] . '</td>
                                                 <td>' . $value["descripcion"] . '</td>
                                                 <td>';
-                                                if ($value["estado"] == "activa") {
-                                                    echo '<button class="btn btn-success btn-xs btnActivarSede" idSede="'.$value["id_sede"].'" estadoSede="inactiva"">Activa</button>';
-                                                } else {
-                                                    echo '<button class="btn btn-danger btn-xs btnActivarSede" idSede="'.$value["id_sede"].'" estadoSede="activa">Inactiva</button>';
-                                                };
-                                                echo '</td>
-                                                <td>
-                                                    <div class="btn-group">
-                                                        <button class="btn btn-default btn-xs btnEditarSede" idSede="'.$value["id_sede"].'" data-toggle="modal" data-target="#modalEditSede"><i class="fas fa-edit"></i></button>';
+                                                if (ControladorValidacion::validarPermisoSesion([23])) {                                                    
+                                                    if ($value["estado"] == "activa") {
+                                                        echo '<button class="btn btn-success btn-xs btnActivarSede" idSede="'.$value["id_sede"].'" estadoSede="inactiva"">Activa</button>';
+                                                    } else {
+                                                        echo '<button class="btn btn-danger btn-xs btnActivarSede" idSede="'.$value["id_sede"].'" estadoSede="activa">Inactiva</button>';
+                                                    };
+                                                }else{
+                                                    if ($value["estado"] == "activa") {
+                                                        echo '<button class="btn btn-success btn-xs disabled">Activa</button>';
+                                                    } else {
+                                                        echo '<button class="btn btn-danger btn-xs disabled">Inactiva</button>';
+                                                    };
 
-                                                        // <button class="btn btn-default btn-xs"><i class="fas fa-ban"></i></button>
-                                            echo '</div>
-                                                </td>
+                                                }
+                                                echo '</td>
+                                                <td>';
+                                                if (ControladorValidacion::validarPermisoSesion([23])) {
+                                                    echo '<div class="btn-group">
+                                                        <button class="btn btn-default btn-xs btnEditarSede" idSede="'.$value["id_sede"].'" data-toggle="modal" data-target="#modalEditSede"><i class="fas fa-edit"></i></button>
+                                                    </div>';
+                                                }else{
+                                                    echo '<div class="btn-group">
+                                                        <button class="btn btn-default disabled btn-xs"><i class="fas fa-edit"></i></button>
+                                                    </div>';
+                                                }
+                                                echo '</td>
                                             </tr>';
                                         }
 

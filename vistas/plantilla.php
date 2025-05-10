@@ -1,4 +1,5 @@
 <?php
+
   session_start();
 ?>
 
@@ -98,6 +99,7 @@
           $_GET["ruta"] == "devoluciones" ||
           $_GET["ruta"] == "salidas" ||
           $_GET["ruta"] == "reportes" ||
+          $_GET["ruta"] == "desactivado" ||
           $_GET["ruta"] == "salir") {
 
             include "modulos/".$_GET["ruta"].".php";
