@@ -146,9 +146,6 @@ $('#reservation').on('apply.daterangepicker', function(ev, picker) {
 
 
   $("#tblActivosSolicitar").on("draw.dt", function(){
-
-    
-
     if (localStorage.getItem("quitarEquipo") != null){
       let listaIdEquipos = JSON.parse(localStorage.getItem("quitarEquipo"));
       let nuevaLista = [];
@@ -196,23 +193,36 @@ $('#reservation').on('apply.daterangepicker', function(ev, picker) {
     
   });
 
-  $("#idFormularioSolicitud").on("submit", function(){
+  // *******************************************************************************************************************
+
+  $("#idFormularioSolicitud").on("submit", function(event){
+
+    event.preventDefault();
     //obtener datos del formulario
     let idSolicitante = $("#idSolicitante").val();
     let fechaInicio = $("#initialDate").val();
     let fechaFin = $("#finalDate").val();
-    let observaciones = $("#observaciones").val();
+    let motivo = $("#motivoSolicitud").val();
 
     let equipos = [];
     $(".equipoIdSolicitado").each(function(){
       equipos.push($(this).val());
     });
 
+    //converitomos la lista de equipos en json
+    equipos = JSON.stringify(equipos); 
+
+    console.log(equipos);
+    //detenemos la ejecucion para debuguear
+// Debug: Stop execution here to inspect variables
+// debugger;
+
+
     let datos = new FormData();
     datos.append("idSolicitante", idSolicitante);
     datos.append("fechaInicio", fechaInicio);
     datos.append("fechaFin", fechaFin);
-    datos.append("observaciones", observaciones);
+    datos.append("motivo", motivo);
     datos.append("equipos", equipos);
 
     // Mostrar loading

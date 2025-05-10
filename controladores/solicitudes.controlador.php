@@ -11,18 +11,19 @@ class ControladorSolicitudes{
 
         //si la fecha inicio es igual a la fecha fin el tipo_prestamo es "imediata"
         if($datos["fechaInicio"] == $datos["fechaFin"]){
-            $tipo_prestamo = "imediata";
+            $tipo_prestamo = "Inmediato";
         }else{
-            $tipo_prestamo = "reservada";
+            $tipo_prestamo = "Reservado";
         }
 
         $datos = array(
             "fecha_inicio" => $datos["fechaInicio"],
             "fecha_fin" => $datos["fechaFin"],
             "tipo_prestamo" => $tipo_prestamo,
-            "motivo" => $datos["observaciones"],
+            "motivo" => $datos["motivo"],
             "estado_prestamo" => "pendiente",
-            "usuario_id" => $datos["idSolicitante"]
+            "usuario_id" => $datos["idSolicitante"],
+            "equipos" => $datos["equipos"]
         );
 
 
