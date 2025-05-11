@@ -87,6 +87,47 @@ $(document).on("change", "#selectSede", function() {
 });
 
 
+// ======================================
+// PREVISUALIZACIÓN DE IMAGEN (EDITAR PERFIL)
+// ======================================
+
+function previewImage(event) {
+    const input = event.target;
+    const preview = document.getElementById('vistaPreviaFoto');
+    const file = input.files[0];
+
+    // Validar tipo y tamaño de archivo
+    if (file) {
+        if (!file.type.match('image/jpeg') && !file.type.match('image/png')) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'El archivo debe ser una imagen JPG o PNG'
+            });
+            input.value = '';
+            return;
+        }
+
+        if (file.size > 2 * 1024 * 1024) { // 2MB
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'La imagen no debe superar los 2MB'
+            });
+            input.value = '';
+            return;
+        }
+
+        // Mostrar vista previa
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+}
+
+
 //************************************************************
 // 
 //  SCRIPT PARA EDITAR USUARIOS
