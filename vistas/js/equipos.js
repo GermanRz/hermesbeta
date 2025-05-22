@@ -222,3 +222,69 @@ $(document).on("change", "#nuevaUbicacionId", function() {
             }
     })
 });
+
+$(document).ready(function() {
+    $('#tblEquipos').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url": "ajax/equipos.ajax.php", // Endpoint for data
+            "type": "POST"
+        },
+        "columns": [
+            { 
+                "data": null, 
+                "orderable": false, 
+                "searchable": false, 
+                "render": function (data, type, row, meta) { 
+                    return meta.row + 1 + meta.settings._iDisplayStart; 
+                } 
+            },
+            { "data": "numero_serie" },
+            { "data": "etiqueta" },
+            { "data": "descripcion" },
+            { "data": "ubicacion_nombre", "defaultContent": "N/A" },
+            { "data": "categoria_nombre", "defaultContent": "N/A" },
+            { "data": "cuentadante_nombre", "defaultContent": "N/A" },
+            { "data": "estado_nombre", "defaultContent": "N/A" },
+            { 
+                "data": "equipo_id", 
+                "orderable": false,
+                "searchable": false,
+                "render": function(data, type, row) {
+                    return `
+                        <div class="btn-group">
+                            <button title="Editar datos equipo" class="btn btn-default btn-xs btnEditarEquipo bg-warning" idEquipo="${data}" data-toggle="modal" data-target="#modalEditarEquipo"><i class="fas fa-edit mr-1 ml-1"></i></button>
+                            <button title="Traspaso de cuentadante" class="btn btn-default btn-xs btnTraspasarEquipo ml-2 bg-success" idEquipoTraspaso="${data}" data-toggle="modal" data-target="#modalTraspaso"><i class="fas fa-share mr-1 ml-1"></i></button>
+                            <button title="Traspaso de ubicación" class="btn btn-default btn-xs btnTraspasarUbicacion ml-2 bg-info" idEquipoTraspasoUbicacion="${data}" data-toggle="modal" data-target="#modalTraspasoUbicacion"><i class="fas fa-map-pin mr-1 ml-1"></i></button>
+                        </div>
+                    `;
+                }
+            }
+        ],
+        "language": {
+            "sProcessing":     "Procesando...",
+            "sLengthMenu":     "Mostrar _MENU_ registros",
+            "sZeroRecords":    "No se encontraron resultados",
+            "sEmptyTable":     "Ningún dato disponible en esta tabla",
+            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
+            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix":    "",
+            "sSearch":         "Buscar:",
+            "sUrl":            "",
+            "sInfoThousands":  ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst":    "Primero",
+                "sLast":     "Último",
+                "sNext":     "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        }
+    });
+});

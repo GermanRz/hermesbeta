@@ -4,14 +4,103 @@ require_once "conexion.php";
 
 class ModeloUsuarios{
 
+    static public function mdlMostrarUsuariosServerSide($tabla, $params){
+        $conexion = Conexion::conectar();
+        $response = array();
+
+        $sqlSelect = "SELECT u.id_usuario, u.tipo_documento, u.numero_documento, u.nombre, u.apellido, u.correo_electronico, u.foto, r.nombre_rol, f.codigo AS codigo_ficha, u.estado, u.condicion ";
+        
+        $sqlCountBase = "SELECT COUNT(u.id_usuario) "; 
+
+        $fromClause = "FROM $tabla u 
+                 LEFT JOIN usuario_rol ur ON u.id_usuario = ur.id_usuario
+                 LEFT JOIN roles r ON ur.id_rol = r.id_rol
+                 LEFT JOIN aprendices_ficha af ON u.id_usuario = af.id_usuario
+                 LEFT JOIN fichas f ON af.id_ficha = f.id_ficha ";
+
+        $baseWhereClause = "WHERE u.id_usuario != 1 "; 
+
+        $finalWhereClause = $baseWhereClause; 
+        $bindings = []; 
+
+        if (!empty($params['search']['value'])) {
+            $searchValue = '%' . $params['search']['value'] . '%';
+            $searchConditions = [];
+            $searchableColumns = ['u.numero_documento', 'u.nombre', 'u.apellido', 'u.correo_electronico', 'r.nombre_rol', 'f.codigo'];
+            foreach ($searchableColumns as $idx => $column) {
+                $placeholder = ":searchValue" . $idx;
+                $searchConditions[] = "$column LIKE $placeholder";
+                $bindings[$placeholder] = $searchValue;
+            }
+            if(count($searchConditions) > 0){
+                $finalWhereClause .= "AND (" . implode(" OR ", $searchConditions) . ") ";
+            }
+        }
+
+        $stmtTotal = $conexion->prepare($sqlCountBase . $fromClause . $baseWhereClause);
+        $stmtTotal->execute();
+        $response['recordsTotal'] = (int)$stmtTotal->fetchColumn();
+        $stmtTotal->closeCursor();
+
+        $stmtFiltered = $conexion->prepare($sqlCountBase . $fromClause . $finalWhereClause);
+        foreach ($bindings as $key => $value) {
+            $stmtFiltered->bindValue($key, $value, PDO::PARAM_STR);
+        }
+        $stmtFiltered->execute();
+        $response['recordsFiltered'] = (int)$stmtFiltered->fetchColumn();
+        $stmtFiltered->closeCursor();
+        
+        $orderByClause = "ORDER BY u.id_usuario ASC "; 
+        if (isset($params['order']) && count($params['order'])) {
+            $columnMap = [
+                0 => 'u.id_usuario', 1 => 'u.tipo_documento', 2 => 'u.numero_documento',
+                3 => 'u.nombre', 4 => 'u.apellido', 5 => 'u.correo_electronico',
+                6 => 'r.nombre_rol', 7 => 'f.codigo', 8 => 'u.estado', 9 => 'u.condicion'
+            ];
+            $columnIndex = intval($params['order'][0]['column']);
+            if (array_key_exists($columnIndex, $columnMap)) {
+                $columnToSortBy = $columnMap[$columnIndex];
+                $sortDir = strtoupper($params['order'][0]['dir']);
+                if ($sortDir === 'ASC' || $sortDir === 'DESC') {
+                    $orderByClause = "ORDER BY $columnToSortBy $sortDir ";
+                }
+            }
+        }
+
+        $limitClause = "";
+        $limitBindings = [];
+        if (isset($params['start']) && isset($params['length']) && $params['length'] != -1) {
+            $limitClause = "LIMIT :start, :length ";
+            $limitBindings[':start'] = (int)$params['start'];
+            $limitBindings[':length'] = (int)$params['length'];
+        }
+        
+        $mainQuery = $sqlSelect . $fromClause . $finalWhereClause . $orderByClause . $limitClause;
+        $stmtData = $conexion->prepare($mainQuery);
+
+        foreach ($bindings as $key => $value) {
+            $stmtData->bindValue($key, $value, PDO::PARAM_STR);
+        }
+        foreach ($limitBindings as $key => $value) {
+            $stmtData->bindValue($key, $value, PDO::PARAM_INT);
+        }
+        
+        $stmtData->execute();
+        $response['data'] = $stmtData->fetchAll(PDO::FETCH_ASSOC);
+        $stmtData->closeCursor();
+
+        $response['draw'] = isset($params['draw']) ? intval($params['draw']) : 0;
+        
+        $conexion = null; 
+        return $response;
+    }
+
     static public function mdlCrearUsuario($tabla, $datos){
+        $conexion = Conexion::conectar();
+        $stmt = null; $stmt2 = null; $stmt3 = null;
         try{
-            //Iniciar la transacción
-            $conexion = Conexion::conectar();
             $conexion->beginTransaction();
-
             $stmt = $conexion->prepare("INSERT INTO $tabla(tipo_documento, numero_documento, nombre, apellido, correo_electronico, nombre_usuario, clave, telefono, direccion, genero, foto) VALUES (:tipo_documento, :documento, :nombre, :apellido, :email, :usuario, :clave, :telefono, :direccion, :genero, :foto)");
-
             $stmt->bindParam(":tipo_documento", $datos["tipo_documento"], PDO::PARAM_STR);
             $stmt->bindParam(":documento", $datos["documento"], PDO::PARAM_STR);
             $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);

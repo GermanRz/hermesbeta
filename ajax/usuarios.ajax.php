@@ -3,6 +3,28 @@
 require_once "../controladores/usuarios.controlador.php";
 require_once "../modelos/usuarios.modelo.php";
 
+// New block for DataTables
+if (isset($_POST['draw']) && isset($_POST['start']) && isset($_POST['length'])) {
+    // It's a DataTables request, pass all $_POST params to the model function
+    $response = ModeloUsuarios::mdlMostrarUsuariosServerSide('usuarios', $_POST); 
+    if ($response === null) {
+        // Handle error case, perhaps mdlMostrarUsuariosServerSide returned null
+        header('Content-Type: application/json');
+        echo json_encode([
+            "draw" => intval($_POST['draw']),
+            "recordsTotal" => 0,
+            "recordsFiltered" => 0,
+            "data" => [],
+            "error" => "Failed to retrieve data from model"
+        ]);
+        exit;
+    }
+    header('Content-Type: application/json');
+    echo json_encode($response);
+    exit;
+}
+// END OF NEW DATATABLES HANDLER BLOCK
+
 class AjaxUsuarios
 {
 
@@ -14,7 +36,8 @@ class AjaxUsuarios
     {
         $item = "sede";
         $valor = $_POST["sede"];
-        $respuesta = ControladorUsuarios::ctrMostrarFichasSede($item, $valor);
+        // Assuming ModeloUsuarios::mdlMostrarFichasSede is more direct if no complex logic in controller
+        $respuesta = ModeloUsuarios::mdlMostrarFichasSede("fichas", $item, $valor); 
         echo json_encode($respuesta);
     }
 

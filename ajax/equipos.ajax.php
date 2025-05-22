@@ -4,6 +4,26 @@
 require_once "../controladores/equipos.controlador.php";
 require_once "../modelos/equipos.modelo.php";
 
+// New block for DataTables - Equipos
+if (isset($_POST['draw']) && isset($_POST['start']) && isset($_POST['length'])) {
+    $response = ModeloEquipos::mdlMostrarEquiposServerSide('equipos', $_POST); 
+    if ($response === null) {
+        header('Content-Type: application/json');
+        echo json_encode([
+            "draw" => intval($_POST['draw']),
+            "recordsTotal" => 0,
+            "recordsFiltered" => 0,
+            "data" => [],
+            "error" => "Failed to retrieve data from model for equipos"
+        ]);
+        exit;
+    }
+    header('Content-Type: application/json');
+    echo json_encode($response);
+    exit;
+}
+// END OF NEW DATATABLES HANDLER BLOCK - EQUIPOS
+
 class AjaxEquipos {
     
     /* ==================================================

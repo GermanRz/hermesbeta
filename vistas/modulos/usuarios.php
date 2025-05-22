@@ -66,56 +66,8 @@
               <th>Acciones</th>
             </tr>
           </thead>
-          <?php
-          $item = null;
-          $valor = null;
-          $usuarios = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
-
-          foreach ($usuarios as $key => $usuario) {
-
-            if ($usuario["id_usuario"] == 1) {
-              continue; // Skip the user with id_usuario = 1
-            }
-            echo '<tr>
-                <td>' . ($key) . '</td>
-                <td>' . $usuario["tipo_documento"] . '</td>
-                <td>' . $usuario["numero_documento"] . '</td>                
-                <td>' . $usuario["nombre"] . '</td>
-                <td>' . $usuario["apellido"] . '</td>
-                <td>' . $usuario["correo_electronico"] . '</td>
-                <td>' . $usuario["nombre_rol"] . '</td>
-                <td>' . $usuario["codigo"] . '</td>
-                <td>';
-            if ($usuario["estado"] == "activo") {
-              echo '<button class="btn btn-success btn-xs btnActivarUsuario" data-id="' . $usuario["id_usuario"] . '" data-estado="inactivo">Activo</button>';
-            } else {
-              echo '<button class="btn btn-danger btn-xs btnActivarUsuario" data-id="' . $usuario["id_usuario"] . '" data-estado="activo">Inactivo</button>';
-            }
-            echo '</td>';
-            echo '<td>';
-            if ($usuario["condicion"] == "en_regla") {
-            echo '<button class="btn btn-success btn-xs btnCambiarCondicionUsuario" idUsuario="' . $usuario["id_usuario"] . '" condicionUsuario="advertido">En regla</button>';
-            } 
-            elseif ($usuario["condicion"] == "advertido") {
-            echo '<button class="btn btn-warning btn-xs btnCambiarCondicionUsuario" idUsuario="' . $usuario["id_usuario"] . '" condicionUsuario="penalizado">Advertido</button>';
-            } 
-            elseif ($usuario["condicion"] == "penalizado") {
-            echo '<button class="btn btn-danger btn-xs btnCambiarCondicionUsuario" idUsuario="' . $usuario["id_usuario"] . '" condicionUsuario="en_regla">Penalizado</button>';
-            } 
-            echo '</td>';
-            echo '<td>
-                  <div class="btn-group">
-                    <button title="Consultar detalles de usuario" class="btn btn-default btn-xs btnConsultarUsuario" idUsuario="' . $usuario["id_usuario"] . '" data-toggle="modal" data-target="#modalConsularUsuario"><i class="fas fa-eye"></i></button>
-
-                    <button title="Editar usuario" class="btn btn-default btn-xs btnEditarUsuario" idUsuario="' . $usuario["id_usuario"] . '" data-toggle="modal" data-target="#modalEditarUsuario"><i class="fas fa-edit"></i></button>
-
-                    <button title="Solicitudes del usuario" class="btn btn-default btn-xs btnSolicitudesUsuario" idUsuario="' . $usuario["id_usuario"] . '" data-toggle="modal" data-target="#modalSolicitudesUsuario"><i class="fas fa-laptop"></i></button>
-                    <button title="??" class="btn btn-default btn-xs btnSolicitudesUsuario" idUsuario="' . $usuario["id_usuario"] . '" data-toggle="modal" data-target="#modalSolicitudesUsuario"><i class="fas fa-file"></i></button>
-                  </div>
-                </td>
-                </tr>';
-          }
-          ?>
+          <tbody>
+        <!-- This space should be empty after removing the PHP loop -->
           </tbody>
         </table
 

@@ -429,3 +429,99 @@ $('#modalEditarUsuario').on('hidden.bs.modal', function() {
     // location.reload();
     // Clear all input fields inside the modal
 });
+
+$(document).ready(function() {
+    $('#tblUsuarios').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url": "ajax/usuarios.ajax.php",
+            "type": "POST"
+        },
+        "columns": [
+            { 
+                "data": null, 
+                "orderable": false, 
+                "searchable": false, 
+                "render": function (data, type, row, meta) { 
+                    return meta.row + 1 + meta.settings._iDisplayStart; 
+                } 
+            }, 
+            { "data": "tipo_documento" },
+            { "data": "numero_documento" },
+            { "data": "nombre" },
+            { "data": "apellido" },
+            { "data": "correo_electronico" },
+            { "data": "nombre_rol" },
+            { "data": "codigo_ficha", "defaultContent": "N/A" }, 
+            { 
+                "data": "estado", 
+                "orderable": false,
+                "searchable": false,
+                "render": function(data, type, row) {
+                    // Assuming '1' or 'activo' means active from the DB.
+                    // The button's data-estado should be the state to *change to*.
+                    if (data === '1' || data === 1 || data === 'activo') { 
+                        return '<button class="btn btn-success btn-xs btnActivarUsuario" data-id="' + row.id_usuario + '" data-estado="0">Activo</button>';
+                    } else {
+                        return '<button class="btn btn-danger btn-xs btnActivarUsuario" data-id="' + row.id_usuario + '" data-estado="1">Inactivo</button>';
+                    }
+                }
+            },
+            { 
+                "data": "condicion", 
+                "orderable": false, 
+                "searchable": false, 
+                "render": function(data, type, row) { 
+                    if (data === 'en_regla') {
+                        return '<button class="btn btn-success btn-xs btnCambiarCondicionUsuario" data-idusuario="' + row.id_usuario + '" data-condicionusuario="advertido">En regla</button>';
+                    } else if (data === 'advertido') {
+                        return '<button class="btn btn-warning btn-xs btnCambiarCondicionUsuario" data-idusuario="' + row.id_usuario + '" data-condicionusuario="penalizado">Advertido</button>';
+                    } else if (data === 'penalizado') {
+                         return '<button class="btn btn-danger btn-xs btnCambiarCondicionUsuario" data-idusuario="' + row.id_usuario + '" data-condicionusuario="en_regla">Penalizado</button>';
+                    }
+                    return data || "N/A"; 
+                }
+            },
+            { 
+                "data": "id_usuario", 
+                "orderable": false,
+                "searchable": false,
+                "render": function(data, type, row) {
+                    return `
+                        <div class="btn-group">
+                            <button title="Consultar detalles de usuario" class="btn btn-default btn-xs btnConsultarUsuario" idUsuario="${data}" data-toggle="modal" data-target="#modalConsularUsuario"><i class="fas fa-eye"></i></button>
+                            <button title="Editar usuario" class="btn btn-default btn-xs btnEditarUsuario" idUsuario="${data}" data-toggle="modal" data-target="#modalEditarUsuario"><i class="fas fa-edit"></i></button>
+                            <button title="Solicitudes del usuario" class="btn btn-default btn-xs btnSolicitudesUsuario" idUsuario="${data}" data-toggle="modal" data-target="#modalSolicitudesUsuario"><i class="fas fa-laptop"></i></button>
+                            <button title="Asignar Novedad" class="btn btn-default btn-xs btnNovedadUsuario" idUsuario="${data}" data-toggle="modal" data-target="#modalNovedad"><i class="fas fa-file"></i></button> 
+                        </div>
+                    `;
+                }
+            }
+        ],
+        "language": {
+            "sProcessing":     "Procesando...",
+            "sLengthMenu":     "Mostrar _MENU_ registros",
+            "sZeroRecords":    "No se encontraron resultados",
+            "sEmptyTable":     "Ningún dato disponible en esta tabla",
+            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
+            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix":    "",
+            "sSearch":         "Buscar:",
+            "sUrl":            "",
+            "sInfoThousands":  ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst":    "Primero",
+                "sLast":     "Último",
+                "sNext":     "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        }
+    });
+});
