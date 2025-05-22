@@ -142,5 +142,6 @@
   <script src="vistas/js/equipos.js"></script>
   <script src="vistas/js/consultar-solicitudes.js"></script>
   <script src="vistas/js/auditoria.js"></script>
+  <script src="vistas/js/salidas.js"></script>
 </body>
 </html>
