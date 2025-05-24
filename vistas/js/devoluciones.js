@@ -296,3 +296,77 @@ $(".tablaDevoluciones tbody").on("click", ".btnMarcarDevuelto", function(){
         }
     })
 })
+
+// Manejar el clic en el botón "Guardar Motivo y Enviar a Mantenimiento"
+$('#btnGuardarMalEstado').click(function() {
+    var prestamoId = $('#malEstadoPrestamoId').val();
+    var equipoId = $('#malEstadoEquipoId').val();
+    var motivo = $('#motivoMalEstado').val();
+
+    if (!motivo) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Debes describir el motivo del mal estado'
+        });
+        return;
+    }
+
+    // Mostrar confirmación
+    Swal.fire({
+        title: '¿Confirmar envío a mantenimiento?',
+        text: "El equipo será marcado como en mantenimiento y el motivo será registrado",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, enviar a mantenimiento',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Enviar datos al servidor
+            $.ajax({
+                url: 'ajax/devoluciones.ajax.php',
+                method: 'POST',
+                data: {
+                    accion: 'enviarMantenimiento',
+                    idPrestamo: prestamoId,
+                    idEquipo: equipoId,
+                    motivo: motivo
+                },
+                dataType: 'json',
+                success: function(respuesta) {
+                    if (respuesta.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Equipo enviado a mantenimiento!',
+                            text: respuesta.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            // Cerrar modales y actualizar interfaz
+                            $('#modalMalEstado').modal('hide');
+                            $('#modalVerDetallesPrestamo').modal('hide');
+                            
+                            // Recargar la página para ver cambios
+                            window.location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: respuesta.message
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error de conexión',
+                        text: 'No se pudo conectar con el servidor'
+                    });
+                }
+            });
+        }
+    });
+});
