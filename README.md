@@ -10,7 +10,44 @@ Este archivo contiene instrucciones y consultas SQL que deben ejecutarse en la b
 
 ## Consultas y Procedimientos
 
-### 1. Agregar columna `foto` a la tabla `usuarios`
+### 1.Agregar una nueva tabla 'mantenimiento' en la base de datos hermes002
+
+```sql
+CREATE TABLE `mantenimiento` (
+  `Id_mantenimiento` int(30) NOT NULL,
+  `equipo_id` int(11) NOT NULL,
+  `detalles` text NOT NULL,
+  `gravedad` enum('ninguno','leve','grave') DEFAULT 'ninguno'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+``` 
+### 2.Agregar dentro de la tabla 'mantenimiento'
+```sql
+INSERT INTO `mantenimiento` (`Id_mantenimiento`, `equipo_id`, `detalles`, `gravedad`) VALUES
+(1, 1, '', 'ninguno'),
+(2, 3, '', 'ninguno'),
+(3, 12, '', 'ninguno'),
+(4, 16, '', 'ninguno');
+
+``` 	
+### 3.Agregar los indices para la tabla 'mantenimiento'
+
+```sql
+ALTER TABLE `mantenimiento`
+  ADD PRIMARY KEY (`Id_mantenimiento`),
+  ADD KEY `equipo_id` (`equipo_id`);
+
+```
+### 4.Agregar el AUTO_INCREMENT para la tabla 'mantenimiento'
+
+```sql
+ALTER TABLE `mantenimiento`
+  MODIFY `Id_mantenimiento` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+COMMIT;
+
+```
+
+### 5.Agregar columna `foto` a la tabla `usuarios`
 
 - Se debe agregar una columna llamada `foto` de tipo `VARCHAR(100)` a la tabla `usuarios`, ubicada después de la columna `genero`.
 
@@ -19,12 +56,12 @@ ALTER TABLE usuarios
 ADD COLUMN foto VARCHAR(100) AFTER genero;
 ```
 
-### 2. Ruta por defecto para la foto de usuario
+### 6. Ruta por defecto para la foto de usuario
 
 - Al crear un nuevo usuario, el valor por defecto de la columna `foto` debe ser:  
     `vistas/img/usuarios/default/anonymous.png`
 
-### 3. Creación automática de carpetas para fotos de usuario
+### 7. Creación automática de carpetas para fotos de usuario
 
 - Cuando se crea un usuario nuevo:
     - Se debe crear automáticamente la carpeta `img` dentro de la carpeta `vistas` si no existe.
@@ -32,7 +69,7 @@ ADD COLUMN foto VARCHAR(100) AFTER genero;
     - Dentro de `usuarios`, se debe crear una carpeta con el número de documento del usuario.
     - En esa carpeta es donde se almacenará la foto del usuario.
 
-### 4. Ejemplo de actualización de datos
+### 8. Ejemplo de actualización de datos
 
 ```sql
 -- Ejemplo: Actualizar la ruta de la foto para un usuario existente
@@ -43,7 +80,7 @@ WHERE id_usuario = 1;
 
 
 
-### 5. Agregar tabla  `auditoria_usuarios` 
+### 9. Agregar tabla  `auditoria_usuarios` 
 ```sql
 CREATE TABLE auditoria_aprendices 
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -53,7 +90,7 @@ CREATE TABLE auditoria_aprendices
   ```
   -Esto permite rastrear qué acciones se han ejecutado sobre los datos de los aprendices, cuándo ocurrieron y en qué consistieron
 
-### 6. Agregar trigger a la tabla  `auditoria_usuarios`
+### 10. Agregar trigger a la tabla  `auditoria_usuarios`
 ```sql 
   DELIMITER $$
 

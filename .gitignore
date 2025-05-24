@@ -2,6 +2,11 @@
 AdminLTE/
 modelos/conexion.php
 
+# Ignore all files in the root directory
+.htaccess
+
+# Ignore all files in the root directory
+.conexion.php
 # .htaccess
 .htaccess
 
