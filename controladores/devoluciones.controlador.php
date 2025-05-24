@@ -44,5 +44,46 @@
 
 	}
 
+
+	/*=============================================
+ENVIAR EQUIPO A MANTENIMIENTO CON MOTIVO
+=============================================*/
+	static public function ctrEnviarMantenimiento($idPrestamo, $idEquipo, $motivo) {
+		// Primero marcamos el equipo en detalle_prestamo como Mantenimiento (id_estado = 4)
+		$tablaDetalle = "detalle_prestamo";
+		$datosDetalle = array(
+			"id_prestamo" => $idPrestamo,
+			"equipo_id" => $idEquipo,
+			"id_estado" => 4 // Mantenimiento
+		);
+		
+		$respuestaMarcado = ModeloDevoluciones::mdlMarcarMantenimientoDetalle($tablaDetalle, $datosDetalle);
+		
+		if($respuestaMarcado == "ok" || $respuestaMarcado == "ok_prestamo_actualizado") {
+			// Registrar el motivo en la tabla mantenimiento
+			$registroMantenimiento = ModeloDevoluciones::mdlRegistrarMantenimiento($idEquipo, $motivo);
+			
+			if($registroMantenimiento == "ok") {
+				return array(
+					"success" => true,
+					"status" => "mantenimiento_registrado",
+					"message" => "Equipo enviado a mantenimiento correctamente"
+				);
+			} else {
+				return array(
+					"success" => false,
+					"status" => "error_registro_mantenimiento",
+					"message" => "Equipo marcado pero error al registrar motivo"
+				);
+			}
+		} else {
+			return array(
+				"success" => false,
+				"status" => "error_marcado_equipo",
+				"message" => "Error al marcar el equipo para mantenimiento"
+			);
+		}
+	}
+
 }
 ?>

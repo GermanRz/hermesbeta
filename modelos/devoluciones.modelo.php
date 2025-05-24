@@ -138,4 +138,31 @@ class ModeloDevoluciones
 		$stmt = null;
 	}
 
+    /*=============================================
+REGISTRAR MOTIVO DE MANTENIMIENTO
+=============================================*/
+    static public function mdlRegistrarMantenimiento($idEquipo, $motivo) {
+        try {
+            $stmt = Conexion::conectar()->prepare(
+                "INSERT INTO mantenimiento (equipo_id, detalles) 
+                VALUES (:equipo_id, :detalles)"
+            );
+            
+            $stmt->bindParam(":equipo_id", $idEquipo, PDO::PARAM_INT);
+            $stmt->bindParam(":detalles", $motivo, PDO::PARAM_STR);
+            
+            if($stmt->execute()) {
+                return "ok";
+            } else {
+                error_log("Error al registrar mantenimiento: " . json_encode($stmt->errorInfo()));
+                return "error";
+            }
+        } catch (PDOException $e) {
+            error_log("Excepción al registrar mantenimiento: " . $e->getMessage());
+            return "error";
+        }
+        
+        $stmt = null;
+    }
+
 }
