@@ -37,6 +37,19 @@ class AjaxDevoluciones {
             echo json_encode(array("success" => false, "status" => "error_marcado", "message" => "Error al actualizar el estado del equipo."));
         }
     }
+
+    /*=============================================
+ENVIAR EQUIPO A MANTENIMIENTO CON MOTIVO
+=============================================*/
+    public function ajaxEnviarMantenimiento() {
+        $respuestaControlador = ControladorDevoluciones::ctrEnviarMantenimiento(
+            $this->idPrestamo,
+            $this->idEquipo,
+            $_POST["motivo"]
+        );
+        
+        echo json_encode($respuestaControlador);
+    }
 }
 
 // Obtener datos del préstamo
@@ -52,4 +65,12 @@ if(isset($_POST["accion"]) && $_POST["accion"] === "marcarMantenimientoDetalle")
     $devolucion->idPrestamo = $_POST["idPrestamo"];
     $devolucion->idEquipo = $_POST["idEquipo"];
     $devolucion->ajaxMarcarMantenimientoDetalle();
+}
+
+// Enviar equipo a mantenimiento con motivo
+if(isset($_POST["accion"]) && $_POST["accion"] === "enviarMantenimiento") {
+    $devolucion = new AjaxDevoluciones();
+    $devolucion->idPrestamo = $_POST["idPrestamo"];
+    $devolucion->idEquipo = $_POST["idEquipo"];
+    $devolucion->ajaxEnviarMantenimiento();
 }
