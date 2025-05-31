@@ -459,7 +459,7 @@
                         <option value="">Seleccione...</option>
                         <option value="1">Femenino</option>
                         <option value="2">Masculino</option>
-                        <option value="0">No declara</option>
+                        <option value="3">No declara</option>
                       </select>
                     </div>
                   </div>
@@ -569,7 +569,7 @@
                   <div class="col-lg-8">
                     <label>Numero de documento</label>
                     <div class="input-group ">
-                      <input type="text" class="form-control" name="editNumeroDocumento" id="editNumeroDocumento" placeholder="Numero documento" required>
+                      <input type="text" class="form-control" name="editNumeroDocumento" id="editNumeroDocumento" placeholder="Numero documento" disabled>
                     </div>
                   </div>
                 </div>
@@ -725,7 +725,7 @@
                         <option value="">Seleccione...</option>
                         <option value="1">Femenino</option>
                         <option value="2">Masculino</option>
-                        <option value="0">No declara</option>
+                        <option value="3">No declara</option>
                       </select>
                     </div>
                   </div>
