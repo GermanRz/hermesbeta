@@ -195,3 +195,36 @@ $(document).ready(function() {
         $("#tblPrestamosUsuario").fadeIn();
     }
 });
+
+// Cargar automáticamente del boton volver solicitudes
+$(document).ready(function() {
+  // Obtener cédula de la URL
+  let params = new URLSearchParams(window.location.search);
+  let cedula = params.get('cedula');
+  if (cedula) {
+    // Colocar la cédula en el input
+    $("#NumeroIdSolicitante").val(cedula);
+    // Disparar el click para buscar automáticamente
+    $("#btnBuscarSolicitante").trigger('click');
+  }
+});
+// Volver a solicitudes o usuarios según el origen
+$(document).ready(function() {
+  $(document).on("click", "#btnVolverSolicitudes", function () {
+    let cedula = $("#cedulaUsuario").val();
+    // Obtener el parámetro 'origin' de la URL para saber de dónde vino el usuario
+    let params = new URLSearchParams(window.location.search);
+    let origin = params.get('origin');
+
+    if (origin === "usuarios") {
+      // Volver a la vista usuarios con la cédula
+      window.location.href = "usuarios?cedula=" + cedula + "&trigger=search";
+    } else if (origin === "solicitudes") {
+      // Volver a la vista solicitudes con la cédula
+      window.location.href = "solicitudes?cedula=" + cedula + "&trigger=search";
+    } else {
+      // Por defecto volver a solicitudes
+      window.location.href = "solicitudes?cedula=" + cedula + "&trigger=search";
+    }
+  });
+});
