@@ -291,26 +291,26 @@ class ControladorUsuarios{
      
    
     static public function ctrCambiarCondicionUsuario($idUsuario, $condicion) {
+        // Iniciar sesión si aún no está activa
         if (session_status() !== PHP_SESSION_ACTIVE) session_start();
-        
-        // El rol del admin es (rol 9)
-        
-        if (!isset($_SESSION["rol"]) || $_SESSION["rol"] != "9") {
-            error_log("Acceso denegado - Rol actual: " . ($_SESSION["rol"] ?? 'no definido'));
-            return "acceso_denegado";
+        $idEditor = $_SESSION["id_usuario"] ?? null;
+
+        // Validar que haya sesión activa
+        if (!$idEditor) {
+            return false;
         }
 
+        // Armar datos para enviar al modelo
         $tabla = "usuarios";
-        $datos = array(
+        $datos = [
             "id_usuario" => $idUsuario,
             "condicion" => $condicion,
-            "id_usuario_editor" => $_SESSION["id_usuario"]
-        );
+            "id_usuario_editor" => $idEditor // Para auditoría
+        ];
 
-        $respuesta = ModeloUsuarios::mdlCambiarCondicionUsuario($tabla, $datos);
-        return $respuesta;
-}
-   
+        // Enviar al modelo para guardar cambio de condición
+        return ModeloUsuarios::mdlCambiarCondicionUsuario($tabla, $datos);
+    }
     static public function ctrEditarUsuario() {
     // Verifica que se hayan enviado los campos mínimos para editar usuario
     if (isset($_POST["idEditUsuario"]) && isset($_POST["editNombre"]) && isset($_POST["selectEditSede"])) {
