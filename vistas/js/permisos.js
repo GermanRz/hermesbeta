@@ -172,7 +172,37 @@ $(document).on("click", "#guardarPermisos", function() {
 
 });
 
+//Tabla que muestra todo los permisos creados, de esta manera tenemos esta lista
+document.addEventListener('DOMContentLoaded', function() {
+    const selectRol = document.getElementById('selectRolForPermisos');
+    const permisosCard = document.querySelector('.card.mt-4');
 
-
-
-
+    selectRol.addEventListener('change', function() {
+        if (this.value) {
+            //Si selecciona el asignador de permisos se oculta la tabla
+            permisosCard.classList.add('d-none');
+        } else {
+            // No selecciona el asignador de permisos siga mostrando la tabla
+            permisosCard.classList.remove('d-none');
+        }
+    });
+    $('.tablaPermisos').DataTable({
+        "responsive": true,
+        "language": {
+            "sProcessing":     "Procesando...",
+            "sLengthMenu":     "Mostrar _MENU_ registros",
+            "sZeroRecords":    "No se encontraron resultados",
+            "sEmptyTable":     "Ningún dato disponible en esta tabla",
+            "sInfo":           "Registros del _START_ al _END_ de _TOTAL_",
+            "sInfoEmpty":      "Mostrando registros del 0 al 0 de 0",
+            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+            "sSearch":         "Buscar:",
+            "oPaginate": {
+                "sFirst":    "Primero",
+                "sLast":     "Último",
+                "sNext":     "Siguiente",
+                "sPrevious": "Anterior"
+            }
+        }
+    });
+});

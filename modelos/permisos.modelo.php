@@ -106,4 +106,39 @@ class ModeloPermisos
             $stmt = null;
         }
     }
+
+    static public function mdlVerificarPermisos($tabla, $id_rol, $id_permiso)
+    {
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_rol = :id_rol AND id_permiso = :id_permiso");
+        $stmt->bindParam(":id_rol", $id_rol, PDO::PARAM_INT);
+        $stmt->bindParam(":id_permiso", $id_permiso, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt->close();
+        $stmt = null;
+    }
+
+    static public function mdlListarTodosPermisos($tabla = "permisos") {
+        $stmt = Conexion::conectar()->prepare("
+            SELECT 
+                p.id_permiso,
+                p.nombre AS nombre_permiso,
+                p.descripcion AS descripcion_permiso,
+                m.nombre AS modulo,
+                COALESCE(
+                    (SELECT GROUP_CONCAT(r.nombre_rol) 
+                    FROM roles r 
+                    JOIN rol_permiso rp ON r.id_rol = rp.id_rol 
+                    WHERE rp.id_permiso = p.id_permiso
+                    ), 'Sin asignar'
+                ) as roles_asignados
+            FROM $tabla p
+            LEFT JOIN modulos m ON p.id_modulo = m.id_modulo
+            ORDER BY m.nombre, p.nombre
+        ");
+    
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
