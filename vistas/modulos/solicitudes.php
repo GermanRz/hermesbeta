@@ -27,12 +27,17 @@
                     <!-- small box -->
                     <?php
                     $conteos = ControladorSolicitudes::ctrContarEquiposPorCategoria();
+                    $conteos2 = ControladorSolicitudes::ctrContarEquiposPorReserva();
+                    
                     ?>
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3><?php echo isset($conteos[1]) ? $conteos[1] : 0; ?></h3>
+                           <h3>Portátiles</h3>
+                            <p><strong>Disponibles:</strong> <?php echo isset($conteos[1]) ? $conteos[1] : 0; ?></p>
+                            <p><strong>Reservados:</strong> <?php echo isset($conteos2[1]) ? $conteos2[1] : 0; ?></p>
+                            
+                            
 
-                            <p>Portátiles</p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-desktop"></i>
@@ -45,9 +50,11 @@
                     <!-- small box -->
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3><?php echo isset($conteos[2]) ? $conteos[2] : 0; ?></h3>
+                            <h3>Sonido</h3>
+                            <p><strong>Disponibles:</strong> <?php echo isset($conteos[3]) ? $conteos[3] : 0; ?></p>
+                            <p><strong>Reservados:</strong> <?php echo isset($conteos2[3]) ? $conteos2[3] : 0; ?></p>
 
-                            <p>Sonido</p>
+                            
                         </div>
                         <div class="icon">
                             <i class="fas fa-volume-up"></i>
@@ -60,9 +67,11 @@
                     <!-- small box -->
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3><?php echo isset($conteos[3]) ? $conteos[3] : 0; ?></h3>
+                             <h3>Videobeam</h3>
+                            <p><strong>Disponibles:</strong> <?php echo isset($conteos[2]) ? $conteos[2] : 0; ?></p>
+                            <p><strong>Reservados:</strong> <?php echo isset($conteos2[2]) ? $conteos2[2] : 0; ?></p>
 
-                            <p>Videobeam</p>
+                            
                         </div>
                         <div class="icon">
                             <i class="fas fa-video"></i>
@@ -75,9 +84,11 @@
                     <!-- small box -->
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3><?php echo isset($conteos[5]) ? $conteos[5] : 0; ?></h3>
+                           <h3>Control remoto</h3>
+                            <p><strong>Disponibles:</strong> <?php echo isset($conteos[5]) ? $conteos[5] : 0; ?></p>
+                            <p><strong>Reservados:</strong> <?php echo isset($conteos2[5]) ? $conteos2[5] : 0; ?></p>
 
-                            <p>Control remoto</p>
+                            
                         </div>
                         <div class="icon">
                             <i class="fas fa-gamepad"></i>
