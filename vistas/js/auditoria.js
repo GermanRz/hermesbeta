@@ -98,8 +98,8 @@ $(document).on('click', '.btnDetalle', function () {
 function traducirCampo(campo, valor) {
     if (campo === "genero") {
         switch (valor) {
-            case "1": return "Masculino";
-            case "2": return "Femenino";
+            case "1": return "Femenino";
+            case "2": return "Masculino";
             case "3": return "No declara";
             case "":
             case null:
