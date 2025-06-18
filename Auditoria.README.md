@@ -4,7 +4,7 @@
 Este módulo permite llevar un historial detallado de los cambios realizados sobre los usuarios en el sistema. Utiliza arquitectura MVC, MySQL, AJAX y DataTables con modo server-side para una visualización eficiente.
 
 # LEER IMPORTANTE 
-Esto va de la mano de usuarios ya que lo que esta aqui funciona con un disparador creado en la tabla de usuarios, que envia datos a otra tabla auditoria_usuarios y que contiene una vista para asi auditoria convertirse en serveride.
+Esto va de la mano de usuarios ya que lo que esta aqui funciona con un disparador creado en la tabla de usuarios, que envia datos a otra tabla auditoria_usuarios y que contiene una vista para asi auditoria convertirse en serveride. todo esto en la base de datos Mysql .
 
 ## 🧩 Funcionalidades
 
