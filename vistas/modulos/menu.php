@@ -170,19 +170,19 @@
               </li>
             </ul>';
         }
-
-
-        if (ControladorValidacion::validarPermisoSesion([9])) {
+        // Solicitudes
         echo '<li class="nav-item">
                 <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-file-alt"></i>
                 <p>
-                Solicitud
+                Solicitudes
                 <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
               <ul class="nav nav-treeview">';
-          // Mostrar las opciones de solicitudes solo si el usuario tiene permisos
+        // Solo administradores, líder TIC, mesa de ayuda y almacén
+        if (ControladorValidacion::validarPermisoSesion([16])) { 
+        // "Solicitudes" para instuctores y administradores
         echo '<li class="nav-item">
               <a href="solicitudes" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
@@ -193,7 +193,7 @@
               </a>
               </li>';
               
-        echo '<li class="nav-item">
+              echo '<li class="nav-item">
               <a href="consultar-solicitudes" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
               <span class="badge badge-info right">6+</span>
@@ -202,7 +202,7 @@
               </p>
               </a>
               </li>';
-        
+        }
         echo '<li class="nav-item">
               <a href="mis-solicitudes" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
@@ -214,7 +214,7 @@
               </li>';
         echo '</ul>
             </li>';
-        }
+
 
         if (ControladorValidacion::validarPermisoSesion([10])) {
           echo '<li class="nav-item">
