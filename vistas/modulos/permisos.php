@@ -1,16 +1,13 @@
 <?php
-        $item = "id_modulo";
-        $valor = 11;
-        $respuesta = ControladorModulos::ctrMostrarModulos($item, $valor);
-        if ($respuesta["estado"] == "inactivo") {
-            echo '<script>
-                window.location = "desactivado";
-            </script>';
-        }
-
-    ?>
-
-
+    $item = "id_modulo";
+    $valor = 11;
+    $respuesta = ControladorModulos::ctrMostrarModulos($item, $valor);
+    if ($respuesta["estado"] == "inactivo") {
+        echo '<script>
+            window.location = "desactivado";
+        </script>';
+    }
+?>
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -101,8 +98,39 @@
                   </div>
                   <!-- card -->
               </div>
-          </div>    
-
+              <div class="card mt-4">
+                <div class="card-header">
+                    <h3 class="card-title">Lista de Permisos del Sistema</h3>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped dt-responsive tablaPermisos">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Módulo</th>
+                                <th>Permiso</th>
+                                <th>Descripción</th>
+                                <th>Roles Asignados</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        $permisos = ControladorPermisos::ctrListarTodosPermisos();
+                        foreach ($permisos as $permiso) {
+                            echo '<tr>
+                                <td>'.$permiso["id_permiso"].'</td>
+                                <td>'.$permiso["modulo"].'</td>
+                                <td>'.$permiso["nombre_permiso"].'</td>
+                                <td>'.$permiso["descripcion_permiso"].'</td>
+                                <td>'.$permiso["roles_asignados"].'</td>
+                            </tr>';
+                        }
+                        ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>    
     </section>
     <!-- /.content -->
   </div>

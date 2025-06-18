@@ -128,7 +128,7 @@
           echo '</ul>
                   </li>';
         }
-        if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+        if (ControladorValidacion::validarPermisoSesion([19, 20, 21])) {
           echo '<li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
@@ -170,8 +170,7 @@
               </li>
             </ul>';
         }
-
-
+        // Solicitudes
         echo '<li class="nav-item">
                 <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-file-alt"></i>
@@ -181,10 +180,9 @@
                 </p>
               </a>
               <ul class="nav nav-treeview">';
-        // Solo administradores, líder TIC, mesa de ayuda y almacén 
-        if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22])) {
-
-        // "Solicitudes" y "Mis solicitudes" para todos los roles
+        // Solo administradores, líder TIC, mesa de ayuda y almacén
+        if (ControladorValidacion::validarPermisoSesion([16])) { 
+        // "Solicitudes" para instuctores y administradores
         echo '<li class="nav-item">
               <a href="solicitudes" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
@@ -229,7 +227,7 @@
               </li>
             </li>';
         }
-        if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+        if (ControladorValidacion::validarPermisoSesion([18])) {
           echo '<li class="nav-item">
             <a href="salidas" class="nav-link">
               <i class="nav-icon fas fa-eye"></i>
@@ -241,7 +239,7 @@
             </li>';
         }
 
-        if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+        if (ControladorValidacion::validarPermisoSesion([19, 20, 21])) {
           echo '<li class="nav-item">
             <a href="devoluciones" class="nav-link">
               <i class="nav-icon fas fa-reply"></i>
@@ -254,7 +252,6 @@
         }
   
 
-
         echo '<li class="nav-item">
             <a href="Mantenimiento" class="nav-link">
               <i class="nav-icon fas fa-tools"></i>
@@ -262,13 +259,7 @@
                 Mantenimiento
               </p>
             </a>
-          </li>';
-          
-          
-
-      
-
-                
+          </li>';     
           ?>
           
         

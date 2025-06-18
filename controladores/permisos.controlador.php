@@ -70,4 +70,28 @@ class ControladorPermisos
             return "error";
         }
     }
+
+    /*=============================================
+    VERIFICAR PERMISOS
+    =============================================*/
+    static public function ctrVerificarPermisos($tabla, $id_rol, $id_permiso)
+    {
+        $respuesta = ModeloPermisos::mdlVerificarPermisos($tabla, $id_rol, $id_permiso);
+
+        if ($respuesta) {
+            return true; // Permiso encontrado
+        } else {
+            return false; // Permiso no encontrado
+        }
+    }
+    static public function ctrListarTodosPermisos(){
+        $tabla = "permisos";
+        $respuesta = ModeloPermisos::mdlListarTodosPermisos($tabla);
+
+        if ($respuesta) {
+            return $respuesta; // Retorna la lista de permisos
+        } else {
+            return array(); // Retorna un array vacío si no hay permisos
+        }
+    }
 }
