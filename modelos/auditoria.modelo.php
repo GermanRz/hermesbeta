@@ -40,8 +40,8 @@ class AuditoriaModelo {
                 LEFT JOIN usuarios editor ON a.id_usuario_editor = editor.id_usuario
             ";
 
-            // Si hay filtro, agregamos condición
-            if ($idUsuarioAfectado !== null) {
+            // Validar el parámetro nuevamente
+            if ($idUsuarioAfectado !== null && is_numeric($idUsuarioAfectado)) {
                 $query .= " WHERE a.id_usuario_afectado = :idUsuarioAfectado ";
             }
 
@@ -49,14 +49,15 @@ class AuditoriaModelo {
 
             $stmt = $conexion->prepare($query);
 
-            // Bind si hay filtro
-            if ($idUsuarioAfectado !== null) {
+            if ($idUsuarioAfectado !== null && is_numeric($idUsuarioAfectado)) {
                 $stmt->bindParam(':idUsuarioAfectado', $idUsuarioAfectado, PDO::PARAM_INT);
             }
 
             $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt = null; // Liberar recursos
 
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
 
         } catch (PDOException $e) {
             error_log("Error en mdlMostrarAuditoria: " . $e->getMessage());

@@ -1,25 +1,35 @@
 <?php
+session_start();
 require_once "../controladores/auditoria.controlador.php";
 require_once "../modelos/auditoria.modelo.php";
 
 class AuditoriaAjax {
 
     public function mostrarAuditoria() {
-        // Establece el tipo de contenido de la respuesta como JSON
         header('Content-Type: application/json');
 
-        // Obtiene el id del usuario desde la petición GET, si existe
-        $idUsuario = isset($_GET['id_usuario']) ? (int)$_GET['id_usuario'] : null;
+        // Verificar autenticación básica
+        if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] !== 'admin') {
+            http_response_code(403);
+            echo json_encode(['error' => 'Acceso no autorizado']);
+            exit;
+        }
 
-        // Llama al método del controlador para obtener los datos de auditoría
-        $data = AuditoriaControlador::ctrMostrarAuditoria($idUsuario);
+        // Validar parámetro GET
+        $idUsuario = (isset($_GET['id_usuario']) && is_numeric($_GET['id_usuario']) && $_GET['id_usuario'] > 0)
+            ? (int)$_GET['id_usuario']
+            : null;
 
-        // Devuelve los datos en formato JSON
-        echo json_encode(['data' => $data]);
+        try {
+            $data = AuditoriaControlador::ctrMostrarAuditoria($idUsuario);
+            echo json_encode(['data' => $data]);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error' => 'Error interno del servidor']);
+        }
     }
 }
 
-// Instancia y ejecuta el método si corresponde
 if (isset($_GET['accion']) && $_GET['accion'] === 'mostrarAuditoria') {
     $auditoriaAjax = new AuditoriaAjax();
     $auditoriaAjax->mostrarAuditoria();

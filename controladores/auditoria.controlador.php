@@ -9,6 +9,11 @@ class AuditoriaControlador {
      * @return array
      */
     public static function ctrMostrarAuditoria($idUsuarioAfectado = null) {
+        // Forzar a entero o null
+        $idUsuarioAfectado = (is_numeric($idUsuarioAfectado) && $idUsuarioAfectado > 0)
+            ? (int)$idUsuarioAfectado
+            : null;
+
         $resultados = AuditoriaModelo::mdlMostrarAuditoria($idUsuarioAfectado);
 
         if (!$resultados) {
@@ -25,12 +30,14 @@ class AuditoriaControlador {
         };
 
         foreach ($resultados as &$row) {
+            // Traducción del campo 'genero'
             $row['genero'] = $traducirGenero($row['genero']);
 
             $campos = array_map('trim', explode(';', $row['campo_modificado']));
             $valores_anteriores = array_map('trim', explode(';', $row['valor_anterior']));
             $valores_nuevos = array_map('trim', explode(';', $row['valor_nuevo']));
 
+            // Traducir género dentro del detalle también
             foreach ($campos as $i => $campo) {
                 if (strtolower($campo) === 'genero') {
                     if (isset($valores_anteriores[$i])) {
@@ -44,10 +51,9 @@ class AuditoriaControlador {
 
             $row['valor_anterior'] = implode('; ', $valores_anteriores);
             $row['valor_nuevo'] = implode('; ', $valores_nuevos);
-            $row['nombre_editor'] = !empty($row['nombre_editor']) ? $row['nombre_editor'] : 'Sistema';
+            $row['nombre_editor'] = !empty($row['nombre_editor']) ? htmlspecialchars($row['nombre_editor']) : 'Sistema';
         }
 
         return $resultados;
     }
 }
-?>
