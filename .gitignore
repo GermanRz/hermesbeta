@@ -2,7 +2,6 @@
 AdminLTE/
 modelos/conexion.php
 ajax/serverside/serverside.conexion.php
-Dumps/
 
 # Ignore all files in the root directory
 .htaccess

@@ -49,20 +49,19 @@
                                                 <td>' . $value["descripcion"] . '</td>
                                                 <td>' . $value["fecha_creacion"] . '</td>
                                                 <td>';
-                                        if ($value["estado"] == "activo") {
-                                            echo '<button class="btn btn-success btn-xs btnActivarRol" idRol="' . $value["id_rol"] . '" estadoRol="inactivo"">Activo</button>';
-                                        } else {
-                                            echo '<button class="btn btn-danger btn-xs btnActivarRol" idRol="' . $value["id_rol"] . '" estadoRol="activo">Inactivo</button>';
+                                                if ($value["estado"] == "activo") {
+                                                    echo '<button class="btn btn-success btn-xs btnActivarRol" idRol="'.$value["id_rol"].'" estadoRol="inactivo"">Activo</button>';
+                                                } else {
+                                                    echo '<button class="btn btn-danger btn-xs btnActivarRol" idRol="'.$value["id_rol"].'" estadoRol="activo">Inactivo</button>';
+                                                };
+                                                echo '</td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-default btn-xs btnEditarRol" idRol="'.$value["id_rol"].'" data-toggle="modal" data-target="#modalEditRol"><i class="fas fa-edit"></i></button>';
+                                            echo '</div></td></tr>';
                                         }
-                                        echo '</td><td><div class="btn-group">';
-                                        echo '<button class="btn btn-default bg-warning  ml-2 mr-2 btn-xs btnEditarRol" idRol="' . $value["id_rol"] . '" data-toggle="modal" data-target="#modalEditRol"><i class="fas fa-edit"></i></button>';
-                                        if ($value["id_rol"] >= 10) {
-                                            echo '<button class="btn btn-danger btn-xs btnEliminarRol" idRol="' . $value["id_rol"] . '"><i class="fas fa-trash"></i></button>';
-                                        }
-                                        echo '</div></td></tr>';
-                                    }
-                                    ?>
-
+                                        ?>
+  
 
 
                                 </tbody>

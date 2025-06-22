@@ -95,3 +95,8 @@ $(document).on("click", ".btnEliminarRol", function() {
         }
     });
 });
+
+//tooltips
+$(document).ready(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip();
+});
