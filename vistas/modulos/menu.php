@@ -128,7 +128,7 @@
           echo '</ul>
                   </li>';
         }
-        if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+        if (ControladorValidacion::validarPermisoSesion([19, 20, 21])) {
           echo '<li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
@@ -182,7 +182,7 @@
               </a>
               <ul class="nav nav-treeview">';
         // Solo administradores, líder TIC, mesa de ayuda y almacén 
-        if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22])) {
+        if (ControladorValidacion::validarPermisoSesion([16])) {
 
         // "Solicitudes" y "Mis solicitudes" para todos los roles
         echo '<li class="nav-item">
@@ -229,7 +229,7 @@
               </li>
             </li>';
         }
-        if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+        if (ControladorValidacion::validarPermisoSesion([18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
           echo '<li class="nav-item">
             <a href="salidas" class="nav-link">
               <i class="nav-icon fas fa-eye"></i>
@@ -241,7 +241,7 @@
             </li>';
         }
 
-        if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+        if (ControladorValidacion::validarPermisoSesion([19, 20, 21])) {
           echo '<li class="nav-item">
             <a href="devoluciones" class="nav-link">
               <i class="nav-icon fas fa-reply"></i>
