@@ -1,48 +1,43 @@
-<!-- Content Wrapper. Contains page content -->
+<!-- Content Wrapper -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>Historial de Auditoría de Usuarios</h1>
-                </div>
-            </div>
-        </div><!-- /.container-fluid -->
-    </section>
+  <section class="content-header">
+    <div class="container-fluid">
+      <h1>Historial de Auditoría de Usuarios</h1>
+    </div>
+  </section>
 
-    <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <table id="tablaAuditoria" class="table table-bordered table-striped w-100">
-                                <thead class="bg-dark">
-                                    <tr>
-                                        <th>ID Usuario</th>
-                                        <th>Tipo Doc.</th>
-                                        <th>Número Doc.</th>
-                                        <th>Nombre</th>
-                                        <th>Apellido</th>
-                                        <th>Editado Por</th>
-                                        <th>Campo Modificado</th>
-                                        <th>Valor Anterior</th>
-                                        <th>Valor Nuevo</th>
-                                        <th>Fecha Cambio</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- El tbody queda vacío porque lo llena DataTables por AJAX -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="card">
+        <div class="card-body">
+          <table id="tablaAuditoria" class="table table-bordered table-striped w-100">
+            <thead class="bg-dark">
+              <tr>
+                <th>Tipo Doc.</th>
+                <th>Número Doc.</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Editado Por</th>
+                <th>Fecha de Cambio</th>
+                <th>Detalle</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
-    </section>
-    <!-- /.content -->
+      </div>
+    </div>
+  </section>
 </div>
-<!-- /.content-wrapper -->
+
+<!-- Modal Detalle de Auditoría -->
+<div class="modal fade" id="modalDetalleAuditoria" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">Detalle de Cambios</h5>
+        <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body" id="detalleAuditoriaBody"></div>
+    </div>
+  </div>
+</div>
+
