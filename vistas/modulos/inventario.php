@@ -1,3 +1,14 @@
+      <?php
+        $item = "id_modulo";
+        $valor = 1;
+        $respuesta = ControladorModulos::ctrMostrarModulos($item, $valor);
+        if ($respuesta["estado"] == "inactivo") {
+            echo '<script>
+                window.location = "desactivado";
+            </script>';
+        }
+
+    ?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -7,9 +18,15 @@
           <div class="col-sm-6">
             <h1>Inventario</h1>
           </div>
-          <div class="col-sm-6">
-            <button class="btn btn-primary float-right" data-toggle="modal" data-target="#modalRegistrarEquipo">Agregar equipo</button>
-          </div>
+          <?php
+          if (ControladorValidacion::validarPermisoSesion([1])) {
+            echo '
+            <div class="col-sm-6">
+              <button class="btn btn-primary float-right" data-toggle="modal" data-target="#modalRegistrarEquipo">Agregar equipo</button>
+            </div>
+            ';
+          }
+          ?>
         </div>
       </div><!-- /.container-fluid -->
     </section>
@@ -405,7 +422,7 @@
         </div>
         <div class="modal-body">
           <form method="">
-            <h1>¿Sale Balatrito?</h1>
+            <h1>En desarrollo...</h1>
           </form>
         </div>
       </div>
