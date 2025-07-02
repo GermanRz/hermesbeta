@@ -171,7 +171,7 @@
             </ul>';
         }
 
-
+        if (ControladorValidacion::validarPermisoSesion([7])){
         echo '<li class="nav-item">
                 <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-file-alt"></i>
@@ -205,6 +205,7 @@
               </a>
               </li>';
         }
+        if (ControladorValidacion::validarPermisoSesion([7])) {
         echo '<li class="nav-item">
               <a href="mis-solicitudes" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
@@ -214,10 +215,11 @@
               </p>
               </a>
               </li>';
+        }
         echo '</ul>
             </li>';
 
-
+      }
         if (ControladorValidacion::validarPermisoSesion([10])) {
           echo '<li class="nav-item">
               <li class="nav-item">
