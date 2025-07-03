@@ -379,7 +379,7 @@ $(document).on("click", ".btnHistorial", function () {
   let cedula = $("#NumeroIdSolicitante").val();
 
   if (cedula) {
-    window.location.href = "index.php?ruta=consultar-solicitudes&cedula=" + cedula;
+    window.location.href = "index.php?ruta=consultar-solicitudes&cedula=" + encodeURIComponent(cedula) + "&origin=historial";
   } else {
     Swal.fire({
       icon: 'error',

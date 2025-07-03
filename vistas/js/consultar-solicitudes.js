@@ -195,35 +195,41 @@ $(document).ready(function() {
         $("#tblPrestamosUsuario").fadeIn();
     }
 });
-
-// Cargar automáticamente del boton volver solicitudes
+// Boton volver
 $(document).ready(function() {
-  // Obtener cédula de la URL
+  // Obtener parámetros de la URL
   let params = new URLSearchParams(window.location.search);
+  let origin = params.get('origin');
   let cedula = params.get('cedula');
-  if (cedula) {
-    // Colocar la cédula en el input
-    $("#NumeroIdSolicitante").val(cedula);
-    // Disparar el click para buscar automáticamente
-    $("#btnBuscarSolicitante").trigger('click');
+  let tabla_prestamo = params.get('tabla_prestamo');
+  // Mostrar u ocultar el botón volver según el origen
+  if (origin === "historial" || origin === "usuarios") {
+    $("#btnVolverSolicitudes").removeClass("d-none");
+  } else {
+    $("#btnVolverSolicitudes").addClass("d-none");
   }
-});
-// Volver a solicitudes o usuarios según el origen
-$(document).ready(function() {
+  // Colocar la cédula en el input y simular búsqueda si existe el parámetro
+  if (cedula) {
+    // Ajusta el input según corresponda en tu HTML
+    $("#cedulaUsuario").val(cedula);
+    $("#btnBuscarUsuarioConsultar").trigger('click');
+  }
+  // Mostrar la tabla de préstamos si corresponde
+  if (tabla_prestamo) {
+    $("#resultados").fadeIn();
+    $("#tblPrestamosUsuario").fadeIn();
+  }
+  // Evento para el botón volver
   $(document).on("click", "#btnVolverSolicitudes", function () {
     let cedula = $("#cedulaUsuario").val();
-    // Obtener el parámetro 'origin' de la URL para saber de dónde vino el usuario
-    let params = new URLSearchParams(window.location.search);
+    // Redirigir según el origen
     let origin = params.get('origin');
-
+    // Redirigir a la página correspondiente según el origen
     if (origin === "usuarios") {
-      // Volver a la vista usuarios con la cédula
+
       window.location.href = "usuarios?cedula=" + cedula + "&trigger=search";
     } else if (origin === "solicitudes") {
-      // Volver a la vista solicitudes con la cédula
-      window.location.href = "solicitudes?cedula=" + cedula + "&trigger=search";
-    } else {
-      // Por defecto volver a solicitudes
+
       window.location.href = "solicitudes?cedula=" + cedula + "&trigger=search";
     }
   });
