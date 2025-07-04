@@ -254,14 +254,18 @@ class ModeloUsuarios
         }
     }
 
-    // Cambiar condición de usuario (solo admin puede cambiar)
-    public static function mdlCambiarCondicionUsuario($tabla, $datos)
-    {
+    // Cambiar condición de usuario con auditoría (registra editor)
+    public static function mdlCambiarCondicionUsuario($tabla, $datos) {
         try {
-            $stmt = Conexion::conectar()->prepare(
+            $conexion = Conexion::conectar();
+
+            // Setear id del usuario editor para auditoría
+            $conexion->exec("SET @id_usuario_editor = " . intval($datos["id_usuario_editor"]));
+
+            $stmt = $conexion->prepare(
                 "UPDATE $tabla SET condicion = :condicion WHERE id_usuario = :id_usuario"
             );
-
+            
             $stmt->bindParam(":condicion", $datos["condicion"], PDO::PARAM_STR);
             $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
 
@@ -269,9 +273,11 @@ class ModeloUsuarios
                 return "ok";
             }
             return "error";
-        } catch (PDOException $e) {
+        } catch(PDOException $e) {
             error_log("Error en mdlCambiarCondicionUsuario: " . $e->getMessage());
             return "error";
+        } finally {
+            $conexion = null;
         }
     }
 
