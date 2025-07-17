@@ -166,16 +166,16 @@ class ControladorUsuarios
         $encriptar = $usuario["clave"];
 
 // Solo validar si el usuario realmente escribió algo nuevo
-if (!empty($_POST["nuevoPassword"])) {
-    $nuevaPassword = $_POST["nuevoPassword"];
+        if (!empty($_POST["nuevoPassword"])) {
+            $nuevaPassword = $_POST["nuevoPassword"];
 
-    // Validar que no sea igual al documento y que no sea la misma contraseña anterior
-    if ($nuevaPassword != $usuario["numero_documento"] && 
-        crypt($nuevaPassword, $usuario["clave"]) != $usuario["clave"]) {
-        $huboCambios = true;
-        $encriptar = crypt($nuevaPassword, '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
-    }
-}
+            // Validar que no sea igual al documento y que no sea la misma contraseña anterior
+            if ($nuevaPassword != $usuario["numero_documento"] && 
+                crypt($nuevaPassword, $usuario["clave"]) != $usuario["clave"]) {
+                $huboCambios = true;
+                $encriptar = crypt($nuevaPassword, '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+                }
+            }
         
 
         // VERIFICAR SI CAMBIÓ ALGÚN DATO
