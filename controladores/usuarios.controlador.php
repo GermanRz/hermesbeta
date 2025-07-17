@@ -162,29 +162,33 @@ class ControladorUsuarios
                     return;
                 }
             }
-          // CONTRASEÑA
-        if (!empty($_POST["nuevoPassword"])) {
-            $huboCambios = true;
-            $encriptar = crypt($_POST["nuevoPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
-        } else {
-            $encriptar = $usuario["clave"];
-        }
+            
+        $encriptar = $usuario["clave"];
 
-        // CAMPOS A COMPARAR NORMALIZADOS
-        $email = trim($_POST["editarEmail"]);
-        $telefono = trim($_POST["editarTelefono"]);
-        $direccion = trim($_POST["editarDireccion"]);
-        $genero = trim($_POST["editarGenero"]);
+// Solo validar si el usuario realmente escribió algo nuevo
+if (!empty($_POST["nuevoPassword"])) {
+    $nuevaPassword = $_POST["nuevoPassword"];
 
+    // Validar que no sea igual al documento y que no sea la misma contraseña anterior
+    if ($nuevaPassword != $usuario["numero_documento"] && 
+        crypt($nuevaPassword, $usuario["clave"]) != $usuario["clave"]) {
+        $huboCambios = true;
+        $encriptar = crypt($nuevaPassword, '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+    }
+}
+        
+
+        // VERIFICAR SI CAMBIÓ ALGÚN DATO
         if (
-            $email != $usuario["correo_electronico"] ||
-            $telefono != $usuario["telefono"] ||
-            $direccion != $usuario["direccion"] ||
-            $genero != $usuario["genero"]
+            $_POST["editarEmail"] != $usuario["correo_electronico"] ||
+            $_POST["editarTelefono"] != $usuario["telefono"] ||
+            $_POST["editarDireccion"] != $usuario["direccion"] ||
+            $_POST["editarGenero"] != $usuario["genero"]
         ) {
             $huboCambios = true;
         }
 
+        // SI NO HUBO CAMBIOS, SALIR
         if (!$huboCambios) {
             echo '<script>
                 Swal.fire({
@@ -216,7 +220,6 @@ $respuesta = ModeloUsuarios::mdlEditarPerfil($tabla, $datos);
             ACTUALIZAR BASE DE DATOS
             =============================================*/
             $tabla = "usuarios";
-            $encriptar = crypt($_POST["nuevoPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
             $datos = array(
                 "id_usuario" => $_POST["idUsuario"],
                 "correo_electronico" => $_POST["editarEmail"],
