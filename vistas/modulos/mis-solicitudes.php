@@ -248,6 +248,9 @@ if ($respuesta["estado"] == "inactivo") {
 
       
       <div class="modal-footer">
+        <button type="button" class="btn btn-danger d-none" id="btnCancelarSolicitud">
+        <i class="fas fa-times-circle"></i> Cancelar solicitud
+        </button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
