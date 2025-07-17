@@ -94,15 +94,12 @@ class ControladorUsuarios
             $usuario = self::ctrMostrarUsuarios("id_usuario", $_POST["idUsuario"]);
             $numeroDocumento = $usuario["numero_documento"];
 
-            $huboCambios = false;
-
             /*=============================================
             VALIDAR IMAGEN
             =============================================*/
             $ruta = $usuario["foto"]; // Mantener foto actual
 
             if (isset($_FILES["editarFoto"]["tmp_name"]) && !empty($_FILES["editarFoto"]["tmp_name"])) {
-                 $huboCambios = true;
 
                 /*=============================================
                 VALIDAR TIPO DE ARCHIVO
