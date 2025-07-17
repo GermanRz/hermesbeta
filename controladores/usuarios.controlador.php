@@ -162,29 +162,29 @@ class ControladorUsuarios
                     return;
                 }
             }
-            // VALIDAR CONTRASEÑA
+          // CONTRASEÑA
         if (!empty($_POST["nuevoPassword"])) {
-            if ($_POST["nuevoPassword"] != $usuario["numero_documento"]) {
-                $huboCambios = true;
-                $encriptar = crypt($_POST["nuevoPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
-            } else {
-                $encriptar = $usuario["clave"];
-            }
+            $huboCambios = true;
+            $encriptar = crypt($_POST["nuevoPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
         } else {
             $encriptar = $usuario["clave"];
         }
 
-        // VERIFICAR SI CAMBIÓ ALGÚN DATO
+        // CAMPOS A COMPARAR NORMALIZADOS
+        $email = trim($_POST["editarEmail"]);
+        $telefono = trim($_POST["editarTelefono"]);
+        $direccion = trim($_POST["editarDireccion"]);
+        $genero = trim($_POST["editarGenero"]);
+
         if (
-            $_POST["editarEmail"] != $usuario["correo_electronico"] ||
-            $_POST["editarTelefono"] != $usuario["telefono"] ||
-            $_POST["editarDireccion"] != $usuario["direccion"] ||
-            $_POST["editarGenero"] != $usuario["genero"]
+            $email != $usuario["correo_electronico"] ||
+            $telefono != $usuario["telefono"] ||
+            $direccion != $usuario["direccion"] ||
+            $genero != $usuario["genero"]
         ) {
             $huboCambios = true;
         }
 
-        // SI NO HUBO CAMBIOS, SALIR
         if (!$huboCambios) {
             echo '<script>
                 Swal.fire({
@@ -196,6 +196,20 @@ class ControladorUsuarios
             </script>';
             return;
         }
+
+        // SOLO SI HUBO CAMBIOS ACTUALIZAMOS
+        $tabla = "usuarios";
+        $datos = array(
+            "id_usuario" => $_POST["idUsuario"],
+            "correo_electronico" => $email,
+            "telefono" => $telefono,
+            "direccion" => $direccion,
+            "genero" => $genero,
+            "clave" => $encriptar,
+            "foto" => $ruta
+        );
+
+$respuesta = ModeloUsuarios::mdlEditarPerfil($tabla, $datos);
 
 
             /*=============================================

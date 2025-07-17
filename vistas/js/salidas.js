@@ -156,11 +156,8 @@ $(document).on('click', '.btnVerDetalles', function () {
                         
                         
                     });
-<<<<<<< HEAD
-=======
                     $("#modalDetallesPrestamo").modal("show");
 
->>>>>>> 4f518659165f465b4d288df22b663b42acacdcca
                 }
             });
         }
