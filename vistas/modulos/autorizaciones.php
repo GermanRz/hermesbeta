@@ -198,6 +198,8 @@
                 <div class="callout callout-success" id="estadoCallout">
                   <h5><i class="fas fa-check"></i> Estado:</h5>
                   <span class="badge badge-success badge-lg" id="estadoPrestamo">Autorizado</span>
+                  <br>
+                 <small id="motivoRechazoTexto" class="text-danger" style="display: none;"></small>
                 </div>
               </div>
             </div>
