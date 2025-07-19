@@ -1,11 +1,4 @@
-<!-- <head>
-
-    <script>
-    </script>
-</head> -->
-
-
-<!-- Content Wrapper. Contains page content -->
+<!--Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -96,9 +89,13 @@
 
                                 ?>
 
-                                <!-- TABLA DE EQUIPOS DISPONIBLES EN EL RANGO DE FECHAS SELECCIONADO  -->
-                                <div class="row">
-                                    <div class="col-lg-12">
+
+
+                            </div>
+                            <!-- TABLA DE EQUIPOS DISPONIBLES EN EL RANGO DE FECHAS SELECCIONADO  -->
+                            <div class="row">
+                                <div class="col-lg-12 infoEquiposSolicitados d-none">
+                                    <div class="table-responsive">
                                         <table id="tblActivosSolicitar" class="table table-bordered table-striped">
                                             <thead class="bg-dark">
                                                 <tr>
@@ -110,25 +107,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php
-                                                // Loop through the equipos and display them in the table
-                                                // foreach ($respuesta as $key => $value) {
-                                                //     echo '<tr>
-                                                //         <td>' . $value["descripcion"] . '</td>
-                                                //         <td>' . $value["etiqueta"] . '</td>
-                                                //         <td>' . $value["categoria_nombre"] . '</td>
-                                                //         <td>' . $value["ubicacion_nombre"] . '</td>
-                                                //         <td> <button class="btn btn-primary btn-sm btnAgregarEquipo recoverButton" idEquipoAgregar="' . $value["equipo_id"] . '"><i class="fas fa-plus"></i> Agregar</button></td>
-                                                //     </tr>';
-                                                // }
-
-
-
-                                                ?>
-
-
-
-
+                                                <!-- -->
                                             </tbody>
                                         </table>
                                     </div>
