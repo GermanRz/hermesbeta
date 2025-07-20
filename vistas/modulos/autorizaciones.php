@@ -57,7 +57,7 @@
                           <td>
                             <div class="icheck-primary d-inline mx-1">';
                   if ($autorizaciones["firma_coordinacion"] == "Firmado") {
-                    echo '<input type="checkbox" checked disabled title="Aprobado por ' . $autorizaciones["nombre_usuario_coordinacion"] . '">';
+                    echo '<input type="checkbox" class="custom-disabled" checked disabled title="Aprobado por ' . $autorizaciones["nombre_usuario_coordinacion"] . '">';
                   } else {
                     echo '<input type="checkbox" disabled title="En trámite...">';
                   }
@@ -66,7 +66,7 @@
                           <td>
                             <div class="icheck-primary d-inline mx-1">';
                   if ($autorizaciones["firma_lider_tic"] == "Firmado") {
-                    echo '<input type="checkbox" checked disabled title="Aprobado por ' . $autorizaciones["nombre_usuario_lider_tic"] . '">';
+                    echo '<input type="checkbox" class="custom-disabled" checked disabled title="Aprobado por ' . $autorizaciones["nombre_usuario_lider_tic"] . '">';
                   } else {
                     echo '<input type="checkbox" disabled title="En trámite...">';
                   }
@@ -75,7 +75,7 @@
                           <td>
                             <div class="icheck-primary d-inline mx-1">';
                   if ($autorizaciones["firma_almacen"] == "Firmado") {
-                    echo '<input type="checkbox" checked disabled title="Aprobado por ' . $autorizaciones["nombre_usuario_almacen"] . '">';
+                    echo '<input type="checkbox" class="custom-disabled" checked disabled title="Aprobado por ' . $autorizaciones["nombre_usuario_almacen"] . '">';
                   } else {
                     echo '<input type="checkbox" disabled title="En trámite...">';
                   }

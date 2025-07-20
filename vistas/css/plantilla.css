@@ -101,4 +101,31 @@ input[type="number"] {
     font-size: 24px;
 }
 
+input[type="checkbox"].custom-disabled {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 20px;
+  height: 20px;
+  /* border: 2px solid #28a745;  */
+  background-color: #e9fbe9; /* Fondo verde muy claro */
+  border-radius: 4px;
+  position: relative;
+  cursor: not-allowed;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+input[type="checkbox"].custom-disabled:checked::after {
+  content: '✔';
+  color: #28a745; 
+  font-size: 14px;
+  font-weight: bold;
+  position: absolute;
+  top: 1px;
+  left: 4px;
+  line-height: 1;
+}
+
+
 

@@ -78,7 +78,7 @@ if ($respuesta["estado"] == "inactivo") {
                                     function renderizarCheckboxAutorizacion($autorizacion, $campo_firma, $campo_nombre) {
                                       if (isset($autorizacion[$campo_firma]) && $autorizacion[$campo_firma] == "Firmado") {
                                         $nombre = $autorizacion[$campo_nombre] ?? 'Usuario';
-                                        return "<input type=\"checkbox\" checked title=\"Autorizado por {$nombre}\" disabled>";
+                                        return "<input type=\"checkbox\" class=\"custom-disabled\" checked title=\"Autorizado por {$nombre}\" disabled>";
                                       } else {
                                         return "<input type=\"checkbox\" title=\"En trámite...\" disabled>";
                                       }
