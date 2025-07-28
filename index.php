@@ -20,6 +20,7 @@ require_once "controladores/estados.controlador.php";
 require_once "controladores/salidas.controlador.php";
 require_once "controladores/notificaciones.controlador.php";
 require_once 'controladores/inicio.controlador.php';
+require_once "controladores/recuperacion.controlador.php";
 
 
 
@@ -44,6 +45,7 @@ require_once "modelos/estados.modelo.php";
 require_once "modelos/salidas.modelo.php";
 require_once "modelos/notificaciones.modelo.php";
 require_once 'modelos/inicio.modelo.php';
+require_once "modelos/recuperacion.modelo.php";
 
 
 

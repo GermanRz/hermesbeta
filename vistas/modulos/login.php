@@ -52,9 +52,9 @@
           <script src="vistas/js/login.js"></script>
         </form>
 
-        <!-- <p class="mb-1">
-          <a href="forgot-password.html">I forgot my password</a>
-        </p> -->
+        <p class="mb-1">
+          <a href="olvide-contrasena">¿Olvidaste tu contraseña?</a>
+        </p>
       </div>
       <!-- /.login-card-body -->
     </div>

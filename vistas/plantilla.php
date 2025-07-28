@@ -159,7 +159,16 @@ session_start();
     include "modulos/footer.php";
     echo '</div>';
   } else {
-    include "modulos/login.php";
+    // Rutas disponibles sin iniciar sesión
+    if (isset($_GET["ruta"])) {
+      if ($_GET["ruta"] == "olvide-contrasena") {
+        include "modulos/olvide-contrasena.php";
+      } else {
+        include "modulos/login.php";
+      }
+    } else {
+      include "modulos/login.php";
+    }
   }
   ?>
 
