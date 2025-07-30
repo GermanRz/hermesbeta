@@ -152,9 +152,21 @@ $(document).on('click', '.btnVerDetalles', function () {
 
                     // Inicializar DataTable nuevamente
                     tabla.DataTable({
-                        responsive: true
-                        
-                        
+                        responsive: true,
+                        language: {
+                            lengthMenu: "Mostrar _MENU_ registros",
+                            zeroRecords: "Selecciones un rango de fechas",
+                            info: "Mostrando pagina _PAGE_ de _PAGES_",
+                            infoEmpty: "No hay equipos disponibles",
+                            infoFiltered: "(filtrado de _MAX_ total registros)",
+                            search: "Buscar:",
+                            paginate: {
+                                first: "Primero",
+                                last: "Ultimo",
+                                next: "Siguiente",
+                                previous: "Anterior",
+                            }
+                        }
                     });
                     $("#modalDetallesPrestamo").modal("show");
 
