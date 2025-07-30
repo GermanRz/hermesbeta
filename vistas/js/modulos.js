@@ -1,3 +1,14 @@
+$(document).ready(function () {
+    // Inicializar DataTable con responsive
+    $('#tblModulos').DataTable({
+        "responsive": true,
+        "paging": false,
+        "searching": false,
+        "info": false,
+        "lengthChange": false,
+        "ordering": false
+    });
+});
 // Activar/Desactivar Módulo
 $(document).on("click", ".btnActivarModulo", function () {
     var idModuloActivar = $(this).attr("idModulo");

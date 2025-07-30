@@ -32,7 +32,8 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <table id="tblModulos" class="table table-bordered table-striped">
+                            <div class="table-responsive">
+                                <table id="tblModulos" class="table table-bordered table-striped">
                                 <thead class="bg-dark">
                                 <tr>
                                     <th>ID</th>
@@ -64,7 +65,8 @@
                                     }
                                     ?>
                                 </tbody>
-                            </table>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
