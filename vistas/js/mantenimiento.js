@@ -1,19 +1,37 @@
 $(document).ready(function () {
-  $(".btnFinalizarMantenimiento").click(function () {
+  // Verificar si DataTable ya está inicializada
+  if ($.fn.DataTable.isDataTable('#tblMantenimiento')) {
+    $('#tblMantenimiento').DataTable().destroy();
+  }
+
+  // Inicializar DataTable
+  $('#tblMantenimiento').DataTable({
+    "responsive": true,
+    "autoWidth": false,
+    "searching": false,
+    "paging": false,
+    "info": false,
+    "lengthChange": false,
+    "order": [],
+    "columnDefs": [
+      {"orderable": false, "targets": "_all"}
+    ]
+    }
+  );
+
+  // Funcionalidad del botón finalizar mantenimiento
+  $(document).on("click", ".btnFinalizarMantenimiento", function () {
     var btn = $(this);
-    var fila = btn.closest("tr");
-
-    // Datos del equipo
+    // Datos del equipo desde los atributos data
     $("#idMantenimiento").val(btn.data("id"));
-    $("#equipoSerie").text(fila.find("td:eq(2)").text()); // Columna 2 es número de serie
-    $("#equipoEtiqueta").text(fila.find("td:eq(3)").text()); // Columna 3 es etiqueta
-    $("#equipoDescripcion").text(fila.find("td:eq(4)").text()); // Columna 4 es descripción
+    $("#equipoSerie").text(btn.data("numero-serie"));
+    $("#equipoEtiqueta").text(btn.data("etiqueta"));
+    $("#equipoDescripcion").text(btn.data("descripcion"));
 
-    // Datos del usuario (obtenidos de los atributos data)
-    var usuarioTd = fila.find("td.d-none"); // Usamos la clase d-none que tiene los datos
-    $("#nombre").text(usuarioTd.data("nombre"));
-    $("#apellido").text(usuarioTd.data("apellido"));
-    $("#condicion").text(usuarioTd.data("condicion"));
+    // Datos del usuario desde los atributos data
+    $("#nombre").text(btn.data("nombre"));
+    $("#apellido").text(btn.data("apellido"));
+    $("#condicion").text(btn.data("condicion"));
 
     $("#modalFinalizarMantenimiento").modal("show");
   });
@@ -26,36 +44,36 @@ $(document).ready(function () {
     var detalles = $("#descripcionProblema").val();
 
     $.ajax({
-      url: "ajax/mantenimiento.ajax.php",
-      method: "POST",
-      data: {
-        idMantenimiento: idMantenimiento,
-        gravedad: gravedad,
-        detalles: detalles,
-      },
-      success: function (respuesta) {
-        if (respuesta === "ok") {
-          Swal.fire({
-            icon: "success",
-            title: "Mantenimiento finalizado correctamente",
-            showConfirmButton: false,
-            timer: 1500,
-          }).then(() => location.reload());
-        } else {
-          Swal.fire(
-            "Error",
-            respuesta || "No se pudo finalizar el mantenimiento",
-            "error"
-          );
-        }
-      },
-      error: function (xhr, status, error) {
-        Swal.fire(
-          "Error",
-          "Error en la comunicación con el servidor: " + error,
-          "error"
-        );
-      },
+        url: "ajax/mantenimiento.ajax.php",
+        method: "POST",
+        data: {
+            idMantenimiento: idMantenimiento,
+            gravedad: gravedad,
+            detalles: detalles,
+        },
+        success: function (respuesta) {
+            if (respuesta === "ok") {
+                Swal.fire({
+                    icon: "success",
+                    title: "Mantenimiento finalizado correctamente",
+                    showConfirmButton: false,
+                    timer: 1500,
+                }).then(() => location.reload());
+            } else {
+                Swal.fire(
+                    "Error",
+                    respuesta || "No se pudo finalizar el mantenimiento",
+                    "error"
+                );
+            }
+        },
+        error: function (xhr, status, error) {
+            Swal.fire(
+                "Error",
+                "Error en la comunicación con el servidor: " + error,
+                "error"
+            );
+        },
     });
   });
 });

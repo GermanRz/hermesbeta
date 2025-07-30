@@ -12,61 +12,58 @@
 
   <!-- Inicio de la tabla -->
   <section class="content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-body">
-              <table id="tblMantenimiento" class="table table-bordered table-striped">
-                <thead class="bg-dark">
-                  <tr>
-                    <th>ID mantenimiento</th>
-                    <th>ID equipo</th>
-                    <th>Numero de serie</th>
-                    <th>Etiqueta</th>
-                    <th>Descripcion</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php
-                  $item = null;
-                  $valor = null;
-                  $mantenimientos = ControladorMantenimiento::ctrMostrarMantenimientos($item, $valor);
+    <div class="card">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table id="tblMantenimiento" class="table table-bordered table-striped">
+          <thead class="bg-dark">
+            <tr>
+              <th>ID mantenimiento</th>
+              <th>ID equipo</th>
+              <th>Numero de serie</th>
+              <th>Etiqueta</th>
+              <th>Descripcion</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+            $item = null;
+            $valor = null;
+            $mantenimientos = ControladorMantenimiento::ctrMostrarMantenimientos($item, $valor);
 
-                  if (!empty($mantenimientos) && is_array($mantenimientos)) {
-                    foreach ($mantenimientos as $key => $value) {
-                      echo '
-                        <tr>
-                          <td>' . $value["id_mantenimiento"] . '</td>
-                          <td>' . $value["equipo_id"] . '</td>
-                          <td>' . $value["numero_serie"] . '</td>
-                          <td>' . $value["etiqueta"] . '</td>
-                          <td>' . $value["descripcion"] . '</td>
-                          <!-- Datos del usuario como atributos data -->
-                          <td class="d-none" data-nombre="' . $value["nombre"] . '" 
-                                           data-apellido="' . $value["apellido"] . '" 
-                                           data-condicion="' . $value["condicion"] . '">
-                          </td>
-                          <td>
-                            <div class="btn-group">
-                              <button title="Finalizar mantenimiento" class="btn btn-default btn-sm btnFinalizarMantenimiento" 
-                                      data-id="' . $value["id_mantenimiento"] . '" 
-                                      data-toggle="modal" data-target="#modalFinalizarMantenimiento">
-                                <i class="fas fa-tools"></i>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>';
-                    }
-                  } else {
-                    echo '<tr><td colspan="6" class="text-center">No hay equipos en mantenimiento</td></tr>';
-                  }
-                  ?>
-                </tbody>
-              </table>
-            </div>
-          </div>
+            if (!empty($mantenimientos) && is_array($mantenimientos)) {
+              foreach ($mantenimientos as $key => $value) {
+                echo '
+                  <tr>
+                    <td>' . $value["id_mantenimiento"] . '</td>
+                    <td>' . $value["equipo_id"] . '</td>
+                    <td>' . $value["numero_serie"] . '</td>
+                    <td>' . $value["etiqueta"] . '</td>
+                    <td>' . $value["descripcion"] . '</td>
+                    <td>
+                      <div class="btn-group">
+                        <button title="Finalizar mantenimiento" class="btn btn-default btn-sm btnFinalizarMantenimiento" 
+                                data-id="' . $value["id_mantenimiento"] . '" 
+                                data-numero-serie="' . $value["numero_serie"] . '"
+                                data-etiqueta="' . $value["etiqueta"] . '"
+                                data-descripcion="' . $value["descripcion"] . '"
+                                data-nombre="' . $value["nombre"] . '" 
+                                data-apellido="' . $value["apellido"] . '" 
+                                data-condicion="' . $value["condicion"] . '"
+                                data-toggle="modal" data-target="#modalFinalizarMantenimiento">
+                          <i class="fas fa-tools"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>';
+              }
+            } else {
+              echo '<tr><td colspan="6" class="text-center">No hay equipos en mantenimiento</td></tr>';
+            }
+            ?>
+          </tbody>
+          </table>
         </div>
       </div>
     </div>
