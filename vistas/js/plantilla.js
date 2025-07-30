@@ -103,6 +103,18 @@ var Toast = Swal.mixin({
   timer: 2000
 });
 
-$('#reservation').daterangepicker();
-
-
+$('#reservation').daterangepicker({
+  locale: {
+    format: 'DD/MM/YYYY',
+    separator: ' - ',
+    applyLabel: 'Aplicar',
+    cancelLabel: 'Cancelar',
+    fromLabel: 'De',
+    toLabel: 'A',
+    customRangeLabel: 'Rango Personalizado',
+    weekLabel: 'S',
+    daysOfWeek: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+    firstDay: 1
+  }
+});
