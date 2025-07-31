@@ -17,8 +17,15 @@ $(document).on("click", "#btnBuscarSolicitante", function () {
       dataType: "json",
       success: function (respuesta) {
         console.log(respuesta);
-        if (respuesta == "error") {
-          alert("El solicitante no existe.");
+        if (!respuesta || respuesta == "error") {
+          $("#nombreSolicitante")
+            .removeClass("bg-success")
+            .addClass("bg-danger")
+            .val("Usuario no encontrado - Verifique el número de identificación")
+            .attr("disabled", false);
+          $("#fichaSolicitante").val("").attr("disabled", true);
+          $(".infoEquiposSolicitados").addClass("d-none");
+          $(".ficha-d").addClass("d-none");
         } else {
           $("#idSolicitante").val(respuesta["id_usuario"]);
           $("#nombreSolicitante").val(
