@@ -215,6 +215,14 @@ $(document).on("click", "#btnBuscarSolicitante", function () {
   }
 }); // End of click event for #btnBuscarSolicitante
 
+// Agregar funcionalidad para que funcione con Enter
+$(document).on("keypress", "#NumeroIdSolicitante", function(e) {
+  if (e.which == 13) { // 13 es el código de la tecla Enter
+    e.preventDefault(); // Prevenir el comportamiento por defecto
+    $("#btnBuscarSolicitante").click(); // Simular click en el botón de búsqueda
+  }
+});
+
 // validacion del rol, para que muestre en el input el numero de documento
 $(document).ready(function () {
   console.log("usuarioActual:", usuarioActual);
