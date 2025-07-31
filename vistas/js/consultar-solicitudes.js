@@ -5,14 +5,20 @@ $(document).ready(function() {
     });
 });
 
-
-$(document).on("click", "#btnBuscarUsuarioConsultar", function () {
+// Función para buscar usuario (reutilizable)
+function buscarUsuario() {
   cedulaUsuario = $("#cedulaUsuario").val();
-  //validar que el campo no esté vacío
+
   if (cedulaUsuario === "") {
-    alert("Por favor, ingrese una cédula.");
+    Swal.fire({
+      icon: "warning",
+      title: "Campo vacío",
+      text: "Por favor, ingrese un número de identificación.",
+      confirmButtonText: "Aceptar"
+    });
     return;
   }
+  
   datos = new FormData();
   datos.append("idSolicitante", cedulaUsuario);
   $.ajax({
@@ -24,19 +30,32 @@ $(document).on("click", "#btnBuscarUsuarioConsultar", function () {
     processData: false,
     dataType: "json",
     success: function (respuesta) {
-      //   console.log("Usuario :",respuesta);
-      if (respuesta != "error") {
-        $("#userinfo").removeClass("d-none");
-        $("#userId").val(respuesta["id_usuario"]);
-        $("#userNames").text(respuesta["nombre"]);
-        $("#userLastName").text(respuesta["apellido"]);
-        $("#userAddress").text(respuesta["direccion"]);
-        $("#userPhone").text(respuesta["telefono"]);
-        $("#userEmail").text(respuesta["correo_electronico"]);
-        $("#userRole").text(respuesta["nombre_rol"]);
+      if (!respuesta || respuesta == "error") {
+        // Ocultar tablas cuando el usuario no existe
+        $("#resultados").hide();
+        $("#userinfo").addClass("d-none");
+        Swal.fire({
+          icon: "error",
+          title: "Usuario no encontrado",
+          text: "El número de identificación ingresado no corresponde a ningún usuario registrado en el sistema.",
+          confirmButtonText: "Aceptar"
+        });
+        return;
       }
+      
+      // Mostrar información del usuario siempre
+      $("#userinfo").removeClass("d-none");
+      $("#userId").val(respuesta["id_usuario"]);
+      $("#userNames").text(respuesta["nombre"]);
+      $("#userLastName").text(respuesta["apellido"]);
+      $("#userAddress").text(respuesta["direccion"]);
+      $("#userPhone").text(respuesta["telefono"]);
+      $("#userEmail").text(respuesta["correo_electronico"]);
+      $("#userRole").text(respuesta["nombre_rol"]);
+      
+      // Buscar solicitudes
       let idUsuario = respuesta["id_usuario"];
-      console.log("idUsuario :", idUsuario);
+
       datos = new FormData();
       datos.append("accion", "mostrarSolicitudes"); 
       datos.append("idUsuario", idUsuario);
@@ -49,56 +68,69 @@ $(document).on("click", "#btnBuscarUsuarioConsultar", function () {
         processData: false,
         dataType: "json",
         success: function (prestamos) {
-          console.log("Solicitudes :", prestamos);
-          if (prestamos != "vacio") {
-            //colocamos los datos en el datatable
-            $("#tblPrestamosUsuario").DataTable().clear().destroy();
-            $("#tblPrestamosUsuario").DataTable({
-              data: prestamos,
-              columns: [
-                { data: "id_prestamo" },
-                { data: "tipo_prestamo" },
-                { data: "fecha_inicio" },
-                { data: "fecha_fin" },
-                { data: "estado_prestamo" },
-                { data: "motivo" },
-                //finalmente la columna de acciones
-                {
-                  data: null,
-                  render: function (row) {
-                    return (
-                      '<div class="text-center"><div class="btn-group"><button class="btn btn-default btnVerDetallePrestamo" idPrestamo="' +
-                      row.id_prestamo +
-                      '" title="Detalles del prestamos" data-bs-toggle="tooltip"data-toggle="modal" data-target="#modal-detalle" type="button"><i class="fa fa-eye"></i></button></div></div>'
-                    );
-                  },
-                },
-              ],
-              language: {
-                sProcessing: "Procesando...",
-                sLengthMenu: "Mostrar _MENU_ registros",
-                sZeroRecords: "No se encontraron resultados",
-                sEmptyTable: "Ningún dato disponible en esta tabla",
-                sInfo:
-                  "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
-                sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
-                sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
-                search: "Buscar:",
-                paginate: {
-                  first: "Primero",
-                  last: "Último",
-                  next: "Siguiente",
-                  previous: "Anterior",
+          // Siempre mostrar la tabla
+          $("#resultados").fadeIn();
+          $("#tblPrestamosUsuario").DataTable().clear().destroy();
+          
+          // Validar que prestamos sea un array válido
+          if (!Array.isArray(prestamos)) {
+            prestamos = [];
+          }
+          
+          $("#tblPrestamosUsuario").DataTable({
+            data: prestamos || [],
+            columns: [
+              { data: "id_prestamo" },
+              { data: "tipo_prestamo" },
+              { data: "fecha_inicio" },
+              { data: "fecha_fin" },
+              { data: "estado_prestamo" },
+              { data: "motivo" },
+              {
+                data: null,
+                render: function (data, type, row) {
+                  return (
+                    '<div class="text-center"><div class="btn-group"><button class="btn btn-default btnVerDetallePrestamo" idPrestamo="' +
+                    row.id_prestamo +
+                    '" title="Detalles del prestamos" data-bs-toggle="tooltip"data-toggle="modal" data-target="#modal-detalle" type="button"><i class="fa fa-eye"></i></button></div></div>'
+                  );
                 },
               },
-              responsive: true,
-              autoWidth: false,
-            });
-          }
+            ],
+            language: {
+              sProcessing: "Procesando...",
+              sLengthMenu: "Mostrar _MENU_ registros",
+              sZeroRecords: "No se encontraron resultados",
+              sEmptyTable: "No se encontraron resultados",
+              sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+              sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
+              sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+              search: "Buscar:",
+              paginate: {
+                first: "Primero",
+                last: "Último",
+                next: "Siguiente",
+                previous: "Anterior",
+              },
+            },
+            responsive: true,
+            autoWidth: false,
+          });
         },
       });
     },
   });
+}
+
+// Event listeners
+$(document).on("click", "#btnBuscarUsuarioConsultar", buscarUsuario);
+
+// Funcionalidad de Enter
+$(document).on("keypress", "#cedulaUsuario", function(e) {
+  if (e.which == 13) {
+    e.preventDefault();
+    buscarUsuario();
+  }
 });
 
 //para ver detalle del prestamo
