@@ -351,3 +351,202 @@ $(document).on("click", "#btnTourInicio", () => {
     driverObj.drive();
 
 })
+
+//   <!-- ========== Start Section ==========
+//   TODO: Tour de solicitudes
+//   ========== End Section ========== -->
+
+$(document).on("click", "#btnTourSolicitudes", () => {
+    // Ejecutar el tour completo directamente ya que el botón solo aparece después de presionar el buscador
+    mostrarModuloSolicitudes();
+    
+    const stepsSolicitudes = [];
+
+    stepsSolicitudes.push({
+        popover: {
+            title: '¡Bienvenido al módulo de Solicitudes!',
+            description: 'Te guiaremos a través del proceso para hacer una solicitud de equipos y herramientes.',
+            side: 'top',
+            align: 'center',
+            className: 'driverjs-custom-popover' 
+        }
+    });
+
+    if(usuarioActual["permisos"].includes(30)){
+            stepsSolicitudes.push({
+            element: '#numeroSolicitante',
+            popover: {
+                title: 'Número de Identificación',
+                description: 'Aquí debes ingresar el número de identificación del solicitante para buscar sus datos.',
+                side: 'top',
+                align: 'center',
+                className: 'driverjs-custom-popover' 
+            }
+        });
+
+        stepsSolicitudes.push({
+            element: '#btnBuscarSolicitante',
+            popover: {
+                title: 'Buscar Solicitante',
+                description: 'Con este botón podrás buscar los datos del solicitante ingresado.',
+                side: 'top',
+                align: 'center',
+                className: 'driverjs-custom-popover' 
+            }
+        });
+    }
+    stepsSolicitudes.push({
+        element: '#reservation',
+        popover: {
+            title: 'Rango de Fechas',
+            description: 'Aquí podrás seleccionar el rango de fechas para ver los equipos disponibles en ese período.',
+            side: 'top',
+            align: 'center',
+            className: 'driverjs-custom-popover' 
+        }
+    });
+
+    stepsSolicitudes.push({
+        element: '#tblActivosSolicitar',
+        popover: {
+            title: 'Equipos Disponibles',
+            description: 'Aquí se muestran todos los equipos disponibles en el rango de fechas seleccionado. Puedes agregar equipos a la solicitud.',
+            side: 'top',
+            align: 'center',
+            className: 'driverjs-custom-popover' 
+        }
+    });
+
+    stepsSolicitudes.push({
+        element: '#nombreSolicitante',
+        popover: {
+            title: 'Nombre del Solicitante',
+            description: 'Aquí aparecerá automáticamente el nombre del solicitante una vez que lo busques.',
+            side: 'top',
+            align: 'center',
+            className: 'driverjs-custom-popover' 
+        }
+    });
+
+    stepsSolicitudes.push({
+        element: '#initialDate',
+        popover: {
+            title: 'Fecha de Inicio',
+            description: 'Selecciona la fecha de inicio para la solicitud de equipos.',
+            side: 'top',
+            align: 'center',
+            className: 'driverjs-custom-popover' 
+        }
+    });
+
+    stepsSolicitudes.push({
+        element: '#finalDate',
+        popover: {
+            title: 'Fecha de Fin',
+            description: 'Selecciona la fecha de fin para la solicitud de equipos.',
+            side: 'top',
+            align: 'center',
+            className: 'driverjs-custom-popover' 
+        }
+    });
+
+    stepsSolicitudes.push({
+        element: '.btnGuardarSolicitud',
+        popover: {
+            title: 'Guardar Solicitud',
+            description: 'Con este botón podrás guardar la solicitud de equipos creada.',
+            side: 'top',
+            align: 'center',
+            className: 'driverjs-custom-popover' 
+        }
+    });
+
+    stepsSolicitudes.push({
+        element: '#btnHistorial',
+        popover: {
+            title: 'Historial',
+            description: 'Con este botón podrás ver el historial de solicitudes del solicitante.',
+            side: 'top',
+            align: 'center',
+            className: 'driverjs-custom-popover' 
+        }
+    });
+
+    stepsSolicitudes.push({
+        popover: {
+            title: '¡Ya sabes cómo crear solicitudes!',
+            description: '<div class="text-center"><img src="vistas/img/Logo/android-chrome-192x192.png" alt="gif fin tour" class="img-fluid"></div>',
+            side: 'top',
+            align: 'center',
+            className: 'driverjs-custom-popover' 
+        }
+    });
+
+    const driverObj = driver({
+        popoverClass: 'driverjs-theme',
+        showProgress: true,
+        nextBtnText: 'Siguiente -›',
+        prevBtnText: '‹- Anterior',
+        doneBtnText: 'Ok',
+        progressText: 'Paso {{current}} de {{total}}', 
+        steps: stepsSolicitudes
+    });
+
+    driverObj.drive();
+});
+
+// Funciones auxiliares para el módulo de solicitudes
+function mostrarModuloSolicitudes() {
+    // Remover la clase d-none del módulo de solicitudes
+    const moduloSolicitudes = document.getElementById('modulo-solicitudes');
+    if (moduloSolicitudes) {
+        moduloSolicitudes.classList.remove('d-none');
+    }
+}
+
+// Función para controlar la visibilidad del botón del tour
+function controlarVisibilidadTour() {
+    const inputId = document.getElementById('btnBuscarSolicitante');
+    const btnTour = document.getElementById('btnTourSolicitudes');
+    
+    if (inputId && btnTour) {
+        // Escuchar cambios en el input
+        inputId.addEventListener('input', function() {
+            if (this.value.trim() !== '') {
+                // Si hay valor, mostrar el botón del tour
+                btnTour.style.display = 'inline-block';
+                btnTour.style.color = '#000';
+                btnTour.style.cursor = 'pointer';
+            } else {
+                // Si no hay valor, ocultar el botón del tour
+                btnTour.style.display = 'none';
+            }
+        });
+        
+        // Verificar estado inicial
+        if (inputId.value.trim() === '') {
+            btnTour.style.display = 'none';
+        }
+    }
+}
+
+// Escuchar el evento de clic en el botón de búsqueda para mostrar el botón del tour
+$(document).on("click", "#btnBuscarSolicitante", function() {
+    // Esperar un momento para que se carguen los datos del solicitante
+    setTimeout(() => {
+        const nombreSolicitante = document.getElementById('nombreSolicitante');
+        const btnTour = document.getElementById('btnTourSolicitudes');
+        
+        if (nombreSolicitante && nombreSolicitante.value.trim() !== '' && btnTour) {
+            // Si se encontró el solicitante, mostrar el botón del tour
+            btnTour.style.display = 'inline-block';
+            btnTour.style.color = '#000';
+            btnTour.style.cursor = 'pointer';
+        }
+    }, 1000);
+});
+
+// Ejecutar cuando el DOM esté listo
+$(document).ready(function() {
+    controlarVisibilidadTour();
+});

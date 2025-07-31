@@ -11,8 +11,11 @@
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                <div class="col-sm-12">
+                <div class="col-sm-12 d-flex justify-content-start mb-3 align-content-center">
                     <h1>Solicitudes</h1>
+                    <button id="btnTourSolicitudes" title="Haz click aquí para un tour de solicitudes!" class="btn btn-default ml-2 mr-2 tourButton">
+                        <i class="fas fa-map"></i>
+                    </button>
                 </div>
             </div>
         </div> <!-- /.container-fluid -->
