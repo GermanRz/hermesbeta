@@ -156,6 +156,8 @@ session_start();
       } else {
         include "modulos/error404.php";
       }
+    } else {
+      include "modulos/inicio.php";
     }
 
     include "modulos/footer.php";
