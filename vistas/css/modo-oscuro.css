@@ -1,0 +1,143 @@
+
+/* ===== MODO OSCURO CONTROLADO PARA ADMINLTE ===== */
+:root {
+  --bg-dark: #1a1a1a;
+  --bg-darker: #0f0f0f;
+  --text-white: #ffffff;
+  --text-light: #f0f0f0;
+  --border-dark: #333333;
+  --accent-blue: #007bff;
+}
+
+body[data-theme="dark"],
+html[data-theme="dark"] {
+  background-color: var(--bg-dark) !important;
+  color: var(--text-white) !important;
+}
+
+/* Navbar */
+body[data-theme="dark"] .main-header.navbar {
+  background-color: var(--bg-dark) !important;
+  border-bottom: 1px solid var(--border-dark) !important;
+}
+body[data-theme="dark"] .main-header.navbar .nav-link {
+  color: var(--text-white) !important;
+}
+
+/* Sidebar */
+body[data-theme="dark"] .main-sidebar,
+body[data-theme="dark"] .brand-link {
+  background-color: var(--bg-darker) !important;
+  color: var(--text-white) !important;
+}
+body[data-theme="dark"] .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link {
+  color: var(--text-light) !important;
+}
+body[data-theme="dark"] .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link:hover {
+  background-color: var(--border-dark) !important;
+  color: var(--text-white) !important;
+}
+
+/* Content */
+body[data-theme="dark"] .content-wrapper,
+body[data-theme="dark"] .content-header {
+  background-color: var(--bg-dark) !important;
+  color: var(--text-white) !important;
+}
+
+/* Cards */
+body[data-theme="dark"] .card,
+body[data-theme="dark"] .card-body,
+body[data-theme="dark"] .card-header {
+  background-color: var(--bg-darker) !important;
+  color: var(--text-white) !important;
+  border-color: var(--border-dark) !important;
+}
+
+/* Tables */
+body[data-theme="dark"] .table,
+body[data-theme="dark"] .table td,
+body[data-theme="dark"] .table th {
+  background-color: var(--bg-darker) !important;
+  color: var(--text-white) !important;
+  border-color: var(--border-dark) !important;
+}
+
+/* Forms */
+body[data-theme="dark"] .form-control,
+body[data-theme="dark"] input,
+body[data-theme="dark"] select,
+body[data-theme="dark"] textarea {
+  background-color: var(--bg-darker) !important;
+  color: var(--text-white) !important;
+  border: 1px solid var(--border-dark) !important;
+}
+
+/* Alerts, Callouts */
+body[data-theme="dark"] .alert,
+body[data-theme="dark"] .callout {
+  background-color: var(--bg-darker) !important;
+  color: var(--text-white) !important;
+  border-left-color: var(--accent-blue) !important;
+}
+
+/* Footer */
+body[data-theme="dark"] .main-footer {
+  background-color: var(--bg-darker) !important;
+  color: var(--text-white) !important;
+  border-top: 1px solid var(--border-dark) !important;
+}
+body[data-theme="dark"] .main-footer a {
+  color: var(--text-light) !important;
+}
+body[data-theme="dark"] .main-footer a:hover {
+  color: var(--text-white) !important;
+}
+
+/* Modal */
+body[data-theme="dark"] .modal-content,
+body[data-theme="dark"] .modal-body,
+body[data-theme="dark"] .modal-header,
+body[data-theme="dark"] .modal-footer {
+  background-color: var(--bg-darker) !important;
+  color: var(--text-white) !important;
+  border-color: var(--border-dark) !important;
+}
+
+/* Buttons */
+body[data-theme="dark"] .btn {
+  background-color: var(--border-dark) !important;
+  color: var(--text-white) !important;
+  border-color: var(--border-dark) !important;
+}
+body[data-theme="dark"] .btn:hover {
+  background-color: var(--accent-blue) !important;
+  color: #fff !important;
+}
+
+/* Scrollbar */
+body[data-theme="dark"] ::-webkit-scrollbar {
+  width: 8px;
+}
+body[data-theme="dark"] ::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+body[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: var(--border-dark);
+  border-radius: 4px;
+}
+body[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Transitions */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* List Group */
+body[data-theme="dark"] .list-group-item {
+    background-color: var(--bg-darker) !important;
+    color: var(--text-white) !important;
+    border-color: var(--border-dark) !important;
+}

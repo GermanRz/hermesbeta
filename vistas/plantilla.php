@@ -33,6 +33,8 @@ session_start();
   <link rel="stylesheet" href="vistas/dist/css/adminlte.css">
   <!-- mi css -->
   <link rel="stylesheet" href="vistas/css/plantilla.css">
+  <!-- mi css modo oscuro -->
+  <link rel="stylesheet" href="vistas/css/modo-oscuro.css">
   <!-- summernote -->
   <link rel="stylesheet" href="vistas/plugins/summernote/summernote-bs4.min.css">
 
@@ -187,6 +189,7 @@ session_start();
   <script src="vistas/js/inicio.js"></script>
   <script src="vistas/js/trazabilidad.js"></script>
   <script src="vistas/js/tour.js"></script>
+  <script src="vistas/js/modo-oscuro.js"></script>
 
   <!-- JS para evitar FOUC (Flash of Unstyled Content) -->
   <script>

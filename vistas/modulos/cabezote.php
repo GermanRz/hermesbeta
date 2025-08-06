@@ -23,7 +23,7 @@
   <ul class="navbar-nav ml-auto">
     <!-- Home -->
     <li class="nav-item">
-      <a class="nav-link" href="inicio" title="Home">
+      <a class="nav-link" href="inicio" title="Inicio">
         <i class="fas fa-home"></i>
       </a>
     </li>
@@ -96,6 +96,10 @@
         <a href="salir" class="dropdown-item">
           <i class="fas fa-sign-out-alt mr-2"></i> Cerrar Sesión
         </a>
+        <div class="dropdown-divider"></div>
+        <button  class="dropdown-item text-center" id="theme-toggle">
+          <i class="mr-2"></i>
+        </button>
       </div>
     </li>
   </ul>
