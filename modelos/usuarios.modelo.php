@@ -256,6 +256,27 @@ class ModeloUsuarios
         }
     }
 
+    /*=============================================
+	GUARDAR TOKEN DE REINICIO DE CONTRASEÑA
+	=============================================*/
+	static public function mdlGuardarTokenReinicio($tabla, $idUsuario, $token, $expiracion){
+
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET reset_token = :token, reset_token_expiracion = :expiracion WHERE id_usuario = :id_usuario");
+
+		$stmt->bindParam(":token", $token, PDO::PARAM_STR);
+		$stmt->bindParam(":expiracion", $expiracion, PDO::PARAM_STR);
+		$stmt->bindParam(":id_usuario", $idUsuario, PDO::PARAM_INT);
+
+		if($stmt->execute()){
+			return true;
+		}else{
+			return false;
+		}
+
+		$stmt = null;
+	}
+
+
     // Cambiar condición de usuario (solo admin puede cambiar)
     public static function mdlCambiarCondicionUsuario($tabla, $datos)
     {
@@ -373,4 +394,27 @@ class ModeloUsuarios
             }
         }
     }
+
+	/*=============================================
+	ACTUALIZAR CONTRASEÑA Y LIMPIAR TOKEN
+	=============================================*/
+	static public function mdlActualizarPassword($id, $password){
+
+		$stmt = Conexion::conectar()->prepare("UPDATE usuarios SET clave = :password, reset_token = NULL, reset_token_expiracion = NULL WHERE id_usuario = :id");
+
+		$stmt->bindParam(":password", $password, PDO::PARAM_STR);
+		$stmt->bindParam(":id", $id, PDO::PARAM_INT);
+
+		if($stmt->execute()){
+			return "ok";
+		}else{
+			return "error";
+		}
+
+		// Las siguientes dos líneas son inalcanzables debido a los return, pero se mantienen por convención.
+		$stmt->close();
+		$stmt = null;
+
+	}
+
 }

@@ -1,5 +1,8 @@
 <?php
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 class ControladorUsuarios
 {
 
@@ -33,16 +36,13 @@ class ControladorUsuarios
                 preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingPassword"])
             ) {
 
-                $encriptar = crypt($_POST["ingPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
                 $tabla = "usuarios";
                 $item = "nombre_usuario";
                 $valor = $_POST["ingUsuario"];
 
                 $respuesta = ModeloUsuarios::mdlMostrarUsuarios($tabla, $item, $valor);
 
-                if (is_array($respuesta)) {
-
-                    if ($respuesta["nombre_usuario"] == $_POST["ingUsuario"] && $respuesta["clave"] == $encriptar) {
+                if (is_array($respuesta) && password_verify($_POST["ingPassword"], $respuesta["clave"])) {
 
                         if ($respuesta["estado"] == "activo") {
                             // Login exitoso: reiniciar intentos y regenerar sesión
@@ -74,7 +74,6 @@ class ControladorUsuarios
                             return;
                         }
                     }
-                }
 
                 // Si llegó hasta aquí: login fallido
                 $_SESSION["intentosLogin"]++;
@@ -802,5 +801,155 @@ $respuesta = ModeloUsuarios::mdlEditarPerfil($tabla, $datos);
                 "nombreArchivo" => null
             ]);
         }
+        }
+
+    /*==============================================
+    SOLICITAR REINICIO DE CONTRASEÑA
+    =============================================*/
+    public static function ctrSolicitarReinicioContrasena(){
+
+        if(isset($_POST["emailRecuperacion"])){
+
+            header('Content-Type: application/json; charset=utf-8');
+
+            $email = $_POST["emailRecuperacion"];
+
+            // Validar que el email exista
+                        $usuario = ModeloUsuarios::mdlMostrarUsuarios("usuarios", "correo_electronico", $email);
+
+            if(!$usuario){
+                echo json_encode(['status' => 'error', 'message' => 'El correo electrónico no se encuentra registrado.']);
+                return;
+            }
+
+            // Generar un token seguro
+            $token = bin2hex(random_bytes(32));
+            $expiracion = date('Y-m-d H:i:s', strtotime('+1 hour'));
+
+            // Guardar el token en la base de datos
+            $guardado = ModeloUsuarios::mdlGuardarTokenReinicio("usuarios", $usuario["id_usuario"], $token, $expiracion);
+
+            if($guardado){
+                // Cargar configuración de correo
+                $emailConfig = require __DIR__ . '/../config/email.config.php';
+                $mail = new PHPMailer(true);
+
+                try {
+                    //Configuración del servidor
+                    $mail->isSMTP();
+                    $mail->Host       = $emailConfig['smtp_host'];
+                    $mail->SMTPAuth   = $emailConfig['smtp_auth'];
+                    $mail->Username   = $emailConfig['smtp_username'];
+                    $mail->Password   = $emailConfig['smtp_password'];
+                    $mail->SMTPSecure = $emailConfig['smtp_secure'];
+                    $mail->Port       = $emailConfig['smtp_port'];
+                    $mail->CharSet    = 'UTF-8';
+
+                    //Remitente y destinatario
+                    $mail->setFrom($emailConfig['from_email'], $emailConfig['from_name']);
+                    $mail->addAddress($usuario['correo_electronico'], $usuario['nombre'] . ' ' . $usuario['apellido']);
+
+                    //Contenido del correo
+                                        $urlReinicio = 'http://' . $_SERVER['HTTP_HOST'] . str_replace('/ajax/usuarios.ajax.php', '', $_SERVER['REQUEST_URI']) . '/reset-password?token=' . $token;
+                    $mail->isHTML(true);
+                    $mail->Subject = 'Recuperación de Contraseña - HERMES';
+                    $mail->Body    = 'Hola ' . $usuario["nombre"] . ',<br><br>Has solicitado restablecer tu contraseña. Haz clic en el siguiente enlace para continuar:<br><a href="' . $urlReinicio . '">' . $urlReinicio . '</a><br><br>Si no solicitaste esto, puedes ignorar este correo.<br><br>El enlace expirará en 1 hora.';
+                    $mail->AltBody = 'Hola ' . $usuario["nombre"] . ",\n\nHas solicitado restablecer tu contraseña. Copia y pega el siguiente enlace en tu navegador para continuar:\n" . $urlReinicio . "\n\nSi no solicitaste esto, puedes ignorar este correo.\n\nEl enlace expirará en 1 hora.";
+
+                    $mail->send();
+                    echo json_encode(['status' => 'success', 'message' => 'Se han enviado las instrucciones para recuperar tu contraseña a tu correo.']);
+
+                } catch (Exception $e) {
+                    error_log("PHPMailer Error: {$mail->ErrorInfo}");
+                    echo json_encode(['status' => 'error', 'message' => 'No se pudo enviar el correo. Por favor, contacta al administrador.']);
+                }
+
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'No se pudo procesar la solicitud. Inténtalo de nuevo.']);
+            }
+
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'No se proporcionó un correo electrónico.']);
+        }
     }
+
+	/*=============================================
+	RESETEAR CONTRASEÑA
+	=============================================*/
+	public function ctrResetPassword(){
+
+		if(isset($_POST["nuevaPassword"])){
+
+			// 1. Validar que las contraseñas coincidan
+			if($_POST["nuevaPassword"] != $_POST["confirmarPassword"]){
+				echo '<script>
+					Swal.fire({
+						icon: "error",
+						title: "¡Las contraseñas no coinciden!",
+						showConfirmButton: true,
+						confirmButtonText: "Cerrar"
+					});
+				</script>';
+				return;
+			}
+
+			// 2. Validar el token
+			$tabla = "usuarios";
+			$item = "reset_token";
+			$valor = $_POST["token"];
+
+			$usuario = ModeloUsuarios::mdlMostrarUsuarios($tabla, $item, $valor);
+
+			if($usuario && strtotime($usuario["reset_token_expiracion"]) > time()){
+
+				// 3. Actualizar contraseña
+				$nuevaPassword = password_hash($_POST["nuevaPassword"], PASSWORD_DEFAULT);
+
+				$respuesta = ModeloUsuarios::mdlActualizarPassword($usuario["id_usuario"], $nuevaPassword);
+
+				if($respuesta == "ok"){
+					echo '<script>
+						Swal.fire({
+							icon: "success",
+							title: "¡Contraseña actualizada correctamente!",
+							text: "Ya puedes iniciar sesión con tu nueva contraseña.",
+							showConfirmButton: true,
+							confirmButtonText: "Ir a Login"
+						}).then((result) => {
+							if (result.value) {
+								window.location = "login";
+							}
+						});
+					</script>';
+				} else {
+					echo '<script>
+						Swal.fire({
+							icon: "error",
+							title: "¡Error del sistema!",
+							text: "No se pudo actualizar la contraseña. Inténtalo de nuevo.",
+							showConfirmButton: true,
+							confirmButtonText: "Cerrar"
+						});
+					</script>';
+				}
+
+			} else {
+				// Token no válido o expirado
+				echo '<script>
+					Swal.fire({
+						icon: "error",
+						title: "¡Token inválido o expirado!",
+						text: "Por favor, solicita un nuevo enlace de recuperación.",
+						showConfirmButton: true,
+						confirmButtonText: "Cerrar"
+					}).then((result) => {
+						if (result.value) {
+							window.location = "olvido-contrasena";
+						}
+					});
+				</script>';
+			}
+		}
+	}
 }
+

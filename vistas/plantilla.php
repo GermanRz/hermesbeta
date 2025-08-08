@@ -160,6 +160,8 @@ session_start();
 
     include "modulos/footer.php";
     echo '</div>';
+    } else if (isset($_GET["ruta"]) && ($_GET["ruta"] == "olvido-contrasena" || $_GET["ruta"] == "reset-password")){
+        include "modulos/" . $_GET["ruta"] . ".php";
   } else {
     include "modulos/login.php";
   }
@@ -187,6 +189,7 @@ session_start();
   <script src="vistas/js/inicio.js"></script>
   <script src="vistas/js/trazabilidad.js"></script>
   <script src="vistas/js/tour.js"></script>
+  <script src="vistas/js/olvido-contrasena.js"></script>
 
   <!-- JS para evitar FOUC (Flash of Unstyled Content) -->
   <script>

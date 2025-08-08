@@ -114,3 +114,13 @@ if (isset($_POST["idUsuarioRoles"])) {
     exit();
 }
 
+/*=============================================
+=            SOLICITUD DE RECUPERACIÓN            =
+=============================================*/
+
+if (isset($_POST["emailRecuperacion"])) {
+    $controlador = new ControladorUsuarios();
+    $controlador->ctrSolicitarReinicioContrasena();
+    exit();
+}
+
