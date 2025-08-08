@@ -438,10 +438,10 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-key"></i></span>
                   </div>
-                  <input type="password" class="form-control" name="nuevoPassword" placeholder="Password">
+                  <input type="password" class="form-control" name="nuevoPassword" id="nuevoPassword" placeholder="Password">
                   <div class="input-group-append">
               <div class="input-group-text" onclick="togglePassword()" style="cursor: pointer;">
-                <span class="fas fa-eye" id="toggleIcon"></span>
+                <span class="fas fa-eye-slash" id="toggleIcon"></span>
               </div>
               </div>
                 </div>
@@ -466,3 +466,18 @@
   <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+<script>
+function togglePassword() {
+  const passwordField = document.getElementById('nuevoPassword');
+  const toggleIcon = document.getElementById('toggleIcon');
+  if (passwordField.type === 'password') {
+    passwordField.type = 'text';
+    toggleIcon.classList.remove('fa-eye-slash');
+    toggleIcon.classList.add('fa-eye');
+  } else {
+    passwordField.type = 'password';
+    toggleIcon.classList.remove('fa-eye');
+    toggleIcon.classList.add('fa-eye-slash');
+  }
+}
+</script>
